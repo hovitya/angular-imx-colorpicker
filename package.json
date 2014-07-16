@@ -1,0 +1,25 @@
+{
+  "name": "angular-imx-colorpicker",
+  "version": "0.0.0",
+  "description": "angular-imx-colorpicker\r =======================",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hovitya/angular-imx-colorpicker.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hovitya/angular-imx-colorpicker/issues"
+  },
+  "homepage": "https://github.com/hovitya/angular-imx-colorpicker",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-concat": "~0.4.0",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-less": "~0.11.3"
+  }
+}
