@@ -1,0 +1,1 @@
+angular.module("imx.colorpicker", ['ngTouch']);
