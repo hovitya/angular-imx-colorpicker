@@ -1,0 +1,22 @@
+{
+  "name": "angular-imx-colorpicker",
+  "version": "0.0.1",
+  "homepage": "https://github.com/hovitya/angular-imx-colorpicker",
+  "authors": [
+    "Viktor Horváth <hovitya@outlook.com>"
+  ],
+  "description": "Angular ColorPicker Component",
+  "keywords": [
+    "angular",
+    "colorpicker",
+    "ui"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
