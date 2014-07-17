@@ -1,10 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<div class="imx-colorpicker-wrapper">
+    <!-- Fix header -->
+    <div class="imx-colorpicker-header">
+        <div class="imx-color"></div>
 
-</body>
-</html>
+    </div>
+    <!-- Carousel for color picker pages -->
+    <ul rn-carousel rn-carousel-indicator>
+        <!-- Advanced tab -->
+        <li>
+
+        </li>
+        <!-- Solid colors tab -->
+        <li>
+            <div>
+                <div data-ng-repeat="color in lastUsed" data-imx-color="{{color}}"></div>
+            </div>
+            <div>
+                <div data-ng-repeat="color in solidColors" data-imx-color="{{color}}"></div>
+            </div>
+        </li>
+        <!-- Palettes tab -->
+        <li>
+
+        </li>
+        <!-- Favourites tab -->
+        <li>
+
+        </li>
+    </ul>
+</div>

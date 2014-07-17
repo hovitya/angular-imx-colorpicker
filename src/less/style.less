@@ -1,3 +1,24 @@
-.test {
-  background-image: url(asd);
+.imx-color-box() {
+  -webkit-box-shadow: inset 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
+  -moz-box-shadow:    inset 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
+  box-shadow:         inset 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
+}
+
+.list-item(@itemNumber, @padding) {
+  position: relative;
+  width: -moz-calc((100%*(100/@itemNumber)) ~"+" @padding);
+  width: -webkit-calc((100%*(100/@itemNumber) )~"+" @padding);
+  width: calc((100%*(100/@itemNumber)) ~"+" @padding);
+  height: 0;
+  padding-bottom: -moz-calc((100%*(100/@itemNumber)) ~"+" @padding);
+  padding-bottom: -webkit-calc((100%*(100/@itemNumber) )~"+" @padding);
+  padding-bottom: calc((100%*(100/@itemNumber)) ~"+" @padding);
+  display:inline-block;
+  margin-top: @padding;
+  margin-left: @padding;
+}
+
+.list-container(@padding) {
+  padding-left: -1*@padding;
+  padding-top: -1*@padding;
 }

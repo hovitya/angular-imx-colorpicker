@@ -1,1 +1,1 @@
-angular.module("imx.colorpicker", ['ngTouch']);
+angular.module("imx.colorpicker", ['angular-carousel', 'ngScrollbar']);

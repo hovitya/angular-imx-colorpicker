@@ -21,6 +21,8 @@
   ],
   "dependencies": {
     "angular": "~1.2.20",
-    "angular-touch": "~1.2.20"
+    "angular-touch": "~1.2.20",
+    "angular-carousel": "~0.2.3",
+    "ng-scrollbar": "~0.0.5"
   }
 }
