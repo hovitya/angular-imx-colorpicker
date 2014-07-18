@@ -15,7 +15,7 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
-            files: ['Gruntfile.js', 'src/js/*.js', 'src/js/**/*.js', 'test/**/*.js'],
+            files: ['Gruntfile.js', 'src/js/*.js', 'src/js/directives/*.js', 'test/**/*.js'],
             options: {
                 // options here to override JSHint defaults
                 globals: {
@@ -38,16 +38,25 @@ module.exports = function(grunt) {
                     "dist/<%= pkg.name %>.css": "src/less/style.less"
                 }
             }
+        },
+        copy: {
+            main: {
+                files: [
+                    // includes files within path
+                    {expand: true, flatten: true, src: ['src/template/*'], dest: 'dist/', filter: 'isFile'},
+                ]
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.registerTask('test', ['jshint']);
 
-    grunt.registerTask('default', ['jshint', 'concat', 'less']);
+    grunt.registerTask('default', ['jshint', 'concat', 'less', 'copy']);
 
 };
 }());

@@ -1,3 +1,5 @@
+@import "config.less";
+
 .imx-color-box() {
   -webkit-box-shadow: inset 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
   -moz-box-shadow:    inset 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
@@ -21,4 +23,12 @@
 .list-container(@padding) {
   padding-left: -1*@padding;
   padding-top: -1*@padding;
+}
+
+.color-list {
+  .list-container(@listPadding);
+  .color-item {
+    .list-item(@listNumberOfElements, @listPadding);
+    .imx-color-box();
+  }
 }
