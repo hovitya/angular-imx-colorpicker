@@ -42,8 +42,12 @@ module.exports = function(grunt) {
         copy: {
             main: {
                 files: [
-                    // includes files within path
-                    {expand: true, flatten: true, src: ['src/template/*'], dest: 'dist/', filter: 'isFile'},
+                    //Copy partials
+                    {expand: true, flatten: true, src: ['src/template/partials/*'], dest: 'dist/', filter: 'isFile'},
+                    //Build example
+                    {expand: true, src: ['src/template/example.html'], dest: 'example/', filter: 'isFile'},
+                    {expand: true, src: ['bower_components/*'], dest: 'example/js/', filter: 'isFile'},
+                    {expand: true, flatten: true, src: ['dist/*'], dest: 'example/js/imx-color-picker/', filter: 'isFile'}
                 ]
             }
         }

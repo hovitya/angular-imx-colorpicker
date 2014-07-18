@@ -5,7 +5,7 @@
 
     </div>
     <!-- Carousel for color picker pages -->
-    <ul rn-carousel rn-carousel-indicator>
+    <ul data-rn-carousel data-rn-carousel-indicator>
         <!-- Advanced tab -->
         <li>
 
@@ -16,7 +16,7 @@
                 <div data-ng-repeat="color in lastUsed" data-imx-color="{{color}}"></div>
             </div>
             <div>
-                <div data-ng-repeat="color in solidColors" data-imx-color="{{color}}"></div>
+                <div data-ng-repeat="color in solidColors" data-imx-color="{{color}}" data-ng-scrollbar></div>
             </div>
         </li>
         <!-- Palettes tab -->
