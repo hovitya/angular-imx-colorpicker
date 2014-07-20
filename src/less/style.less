@@ -1,28 +1,38 @@
 @import "config.less";
 
 .imx-color-box() {
-  -webkit-box-shadow: inset 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
-  -moz-box-shadow:    inset 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
-  box-shadow:         inset 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
+  -webkit-box-shadow: inset 1px 1px 1px 0px rgba(50, 50, 50, 0.2);
+  -moz-box-shadow:    inset 1px 1px 1px 0px rgba(50, 50, 50, 0.2);
+  box-shadow:         inset 1px 1px 1px 0px rgba(50, 50, 50, 0.2);
+  border-radius: 2px;
 }
 
 .list-item(@itemNumber, @padding) {
   position: relative;
-  width: -moz-calc((100%*(100/@itemNumber)) ~"+" @padding);
-  width: -webkit-calc((100%*(100/@itemNumber) )~"+" @padding);
-  width: calc((100%*(100/@itemNumber)) ~"+" @padding);
+  width: -moz-calc(floor(100%*(1/@itemNumber)) ~"-" @padding);
+  width: -webkit-calc(floor(100%*(1/@itemNumber) )~"-" @padding);
+  width: calc(floor(100%*(1/@itemNumber)) ~"-" @padding);
   height: 0;
-  padding-bottom: -moz-calc((100%*(100/@itemNumber)) ~"+" @padding);
-  padding-bottom: -webkit-calc((100%*(100/@itemNumber) )~"+" @padding);
-  padding-bottom: calc((100%*(100/@itemNumber)) ~"+" @padding);
+  padding-bottom: -moz-calc(floor(100%*(1/@itemNumber)) ~"-" @padding);
+  padding-bottom: -webkit-calc(floor(100%*(1/@itemNumber) )~"-" @padding);
+  padding-bottom: calc(floor(100%*(1/@itemNumber)) ~"-" @padding);
   display:inline-block;
   margin-top: @padding;
   margin-left: @padding;
 }
 
 .list-container(@padding) {
-  padding-left: -1*@padding;
-  padding-top: -1*@padding;
+  margin-left: -1*@padding;
+  margin-top: -1*@padding;
+}
+
+.imx-selected-color {
+  position: relative;
+  width: -moz-calc(floor(100%*(1/@listNumberOfElements)*1.5) ~"-" @listPadding);
+  width: -webkit-calc(floor(100%*(1/@listNumberOfElements)*1.5 )~"-" @listPadding);
+  width: calc(floor(100%*(1/@listNumberOfElements)*1.5) ~"-" @listPadding);
+  height: 22px;
+  display: inline-block;
 }
 
 .color-list {
@@ -31,4 +41,47 @@
     .list-item(@listNumberOfElements, @listPadding);
     .imx-color-box();
   }
+}
+
+
+
+.imx-colorpicker-wrapper {
+  width: @desktopWidth;
+  background-color: @panelBackground;
+  color: @textColor;
+  font-family: @font;
+  padding: 5px;
+  .imx-colorpicker-block {
+    margin-bottom: 10px;
+  }
+  button {
+    border-radius: 0px;
+    border: 2px solid @fadedColor;
+    color: @fadedColor;
+    background: none;
+    outline: none;
+    &:hover {
+      color: @activeColor;
+      border-color: @activeColor;
+    }
+  }
+}
+
+.imx-colorpicker-label {
+  font-weight: @labelWeight;
+  text-transform: uppercase;
+  font-size: @labelSize;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.rn-carousel-indicator {
+  background: none;
+  span {
+    color: @fadedColor;
+    &:last-child::before {
+      content: "\2665";
+    }
+  }
+
 }

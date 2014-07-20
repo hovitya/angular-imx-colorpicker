@@ -5,6 +5,7 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        clean: ["dist", "example"],
         concat: {
             options: {
                 separator: ';'
@@ -45,14 +46,15 @@ module.exports = function(grunt) {
                     //Copy partials
                     {expand: true, flatten: true, src: ['src/template/partials/*'], dest: 'dist/', filter: 'isFile'},
                     //Build example
-                    {expand: true, src: ['src/template/example.html'], dest: 'example/', filter: 'isFile'},
-                    {expand: true, src: ['bower_components/*'], dest: 'example/js/', filter: 'isFile'},
-                    {expand: true, flatten: true, src: ['dist/*'], dest: 'example/js/imx-color-picker/', filter: 'isFile'}
+                    {expand: true, flatten: true, src: ['src/template/example.html'], dest: 'example/', filter: 'isFile'},
+                    {expand: true, cwd: 'bower_components/', src: ['**'], dest: 'example/js/'},
+                    {expand: true, flatten: true, src: ['dist/*', 'src/template/partials/*'], dest: 'example/js/imx-color-picker/', filter: 'isFile'}
                 ]
             }
         }
     });
 
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-less');
@@ -60,7 +62,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('test', ['jshint']);
 
-    grunt.registerTask('default', ['jshint', 'concat', 'less', 'copy']);
+    grunt.registerTask('default', ['jshint', 'clean', 'concat', 'less', 'copy']);
 
 };
 }());

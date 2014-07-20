@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="demo">
 <head lang="en">
     <meta charset="UTF-8">
+    <link href="js/angular-carousel/dist/angular-carousel.css" rel="stylesheet" type="text/css">
+    <link href="js/ng-scrollbar/dist/ng-scrollbar.css" rel="stylesheet" type="text/css">
+    <link href="js/imx-color-picker/angular-imx-colorpicker.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="js/angular/angular.js"></script>
+    <script type="text/javascript" src="js/angular-touch/angular-touch.js"></script>
+    <script type="text/javascript" src="js/angular-carousel/dist/angular-carousel.js"></script>
+    <script type="text/javascript" src="js/ng-scrollbar/dist/ng-scrollbar.js"></script>
+    <script type="text/javascript" src="js/imx-color-picker/angular-imx-colorpicker.js"></script>
     <title></title>
 </head>
 <body>
-
+    <imx-color-picker></imx-color-picker>
+    <script type="text/javascript">
+        angular.module('demo',['imx.colorpicker']);
+    </script>
 </body>
 </html>

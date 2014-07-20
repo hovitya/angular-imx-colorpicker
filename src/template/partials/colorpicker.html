@@ -1,7 +1,9 @@
 <div class="imx-colorpicker-wrapper">
     <!-- Fix header -->
     <div class="imx-colorpicker-header">
-        <div class="imx-color"></div>
+        <div class="imx-colorpicker-block">
+            <div class="imx-selected-color" imx-color="selectedColor"></div><button>&hearts;</button>
+        </div>
 
     </div>
     <!-- Carousel for color picker pages -->
@@ -12,11 +14,17 @@
         </li>
         <!-- Solid colors tab -->
         <li>
-            <div>
-                <div data-ng-repeat="color in lastUsed" data-imx-color="{{color}}"></div>
+            <div class="imx-colorpicker-block">
+                <div class="imx-colorpicker-label">Last used</div>
+                <div class="color-list">
+                    <div class="color-item" data-ng-repeat="color in lastUsed| limitTo : 8" imx-color="{{color}}"></div>
+                </div>
             </div>
-            <div>
-                <div data-ng-repeat="color in solidColors" data-imx-color="{{color}}" data-ng-scrollbar></div>
+            <div class="imx-colorpicker-block">
+                <div class="imx-colorpicker-label">Solid colors</div>
+                <div class="color-list"r>
+                    <div class="color-item" data-ng-repeat="color in solidColors" data-imx-color="{{color}}"></div>
+                </div>
             </div>
         </li>
         <!-- Palettes tab -->

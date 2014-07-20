@@ -1,17 +1,17 @@
-angular.module("imx.colorpicker").directive('imxColor', function factory(injectables) {
+angular.module("imx.colorpicker").directive('imxColor', function factory() {
     return {
         restrict: 'A',
         scope: {
-            instColor: "="
+            instColor: "@imxColor"
         },
         link: function ($scope, $element, attrs) {
             var innerColor = new Color($scope.instColor);
 
             function update() {
-                $element.css('backgroundColor', innerColor.toHex());
+                $element.css('backgroundColor', innerColor.getHex());
             }
 
-            $scope.watch('instColor', function(newValue, oldValue) {
+            $scope.$watch('instColor', function(newValue, oldValue) {
                 innerColor.parse(newValue);
                 update();
             });
