@@ -31,15 +31,15 @@ angular.module("imx.colorpicker").directive('imxResize', function ($parse) {
         restrict: 'A',
         scope: { method: '&imxResize' },
         link: function ($scope, $element, attrs) {
-            var width = $element.width();
-            var height = $element.height();
+            var width = $element[0].offsetWidth;
+            var height = $element[0].offsetHeight;
             requestAnimationFrame(function() {
-                var newWidth = $element.width();
-                var newHeight = $element.height();
+                var newWidth = $element[0].offsetWidth;
+                var newHeight = $element[0].offsetHeight;
                 if (newWidth !== width || newHeight !== height) {
                     width = newWidth;
                     height = newHeight;
-                    $scope.method({});
+                    $scope.method({width: newWidth, height: newHeight});
                 }
             });
         }

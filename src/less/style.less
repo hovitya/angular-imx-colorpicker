@@ -1,10 +1,14 @@
 @import "config.less";
 
+.element() {
+  border-radius: 2px;
+}
+
 .imx-color-box() {
   -webkit-box-shadow: inset 1px 1px 1px 0px rgba(50, 50, 50, 0.2);
   -moz-box-shadow:    inset 1px 1px 1px 0px rgba(50, 50, 50, 0.2);
   box-shadow:         inset 1px 1px 1px 0px rgba(50, 50, 50, 0.2);
-  border-radius: 2px;
+  .element();
 }
 
 .list-item(@itemNumber, @padding) {
@@ -84,4 +88,37 @@
     }
   }
 
+}
+
+.imx-color-shades-wrapper {
+  width: ~"calc(100% - 4px)";
+  height: 240px;
+  line-height: 0px;
+  overflow: hidden;
+  .element();
+  -webkit-box-shadow: 1px 1px 2px 0px rgba(50, 50, 50, 0.5);
+  -moz-box-shadow:    1px 1px 2px 0px rgba(50, 50, 50, 0.5);
+  box-shadow:         1px 1px 2px 0px rgba(50, 50, 50, 0.5);
+  position: relative;
+  .imx-color-shades {
+    width: 100%;
+    height: ~"calc(100% - 30px)";
+  }
+  .imx-color-shades-hue {
+    width: 100%;
+    height: 20px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+  }
+  .imx-color-shades-versions {
+    width: 100%;
+    height: 10px;
+  }
+  .imx-color-shades-chrome {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+  }
 }
