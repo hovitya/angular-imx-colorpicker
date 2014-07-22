@@ -14,9 +14,13 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
         },
         link: function ($scope, $element, attrs) {
             var hueRendered = false;
+            var brightness;
+            var saturation;
+            var hue;
             function renderImage() {
                 //Render saturation and brightness
                 var color = paletteService.createColor($scope.selectedColor);
+                var hex = color.getHex();
                 var canvas = $element.children()[1];
                 var width = canvas.width,
                     height = canvas.height;
@@ -26,13 +30,15 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
                  */
                 var ctx = canvas.getContext('2d');
                 ctx.clearRect(0, 0, width, height);
-                var imageData = ctx.createImageData(width, height).data;
-
-                for (var i = 0; i < width; i++) {
-                    for (var j = 0; j < height; j++) {
-                        var startPoint = (i*height + j) * 4;
-                        if (i <= 100) color.saturation(i);
-                        if (j <= 100) color.lightness(j);
+                var data = ctx.createImageData(width, height);
+                var imageData = data.data;
+                var widthScale = width / 100.0;
+                var heightScale = height / 100.0;
+                for (var y = 0; y < height; y++) {
+                    for (var x = 0; x < width; x++) {
+                        var startPoint = ((width * y) + x) * 4;
+                        color.saturation(Math.round(y / heightScale));
+                        color.brightness(Math.round(x / widthScale));
                         imageData[startPoint] = color.red();
                         imageData[startPoint + 1] = color.green();
                         imageData[startPoint + 2] = color.blue();
@@ -40,7 +46,7 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
                     }
                 }
 
-                ctx.putImageData(imageData, 0, 0);
+                ctx.putImageData(data, 0, 0);
 
 
                 if (!hueRendered) {
@@ -52,9 +58,9 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
                 var versionCtx = versionCanvas.getContext("2d");
                 var versionColors = paletteService.createSolidColors([hex], undefined, false);
                 var versionWidth = width / versionColors.length;
-                for (var i = 0; i < versionColors.length; i++) {
-                    versionCtx.fillStyle = versionColors[i];
-                    versionCtx.fillRect(i*versionWidth, 0, versionWidth, 10);
+                for (var k = 0; k < versionColors.length; k++) {
+                    versionCtx.fillStyle = versionColors[k];
+                    versionCtx.fillRect(k*versionWidth, 0, versionWidth, 10);
                 }
             }
 
@@ -93,8 +99,8 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
                 ctx.fill();
 
                 //Mark brightness and saturation
-                var saturationPosition = ((color.saturation()) / 100) * canvas.width;
-                var lightnessPosition = (((100-color.lightness()) / 100) * (canvas.height - 30)) + 10;
+                var saturationPosition = ((color.brightness()) / 100) * canvas.width;
+                var lightnessPosition = (((color.saturation()) / 100) * (canvas.height - 30)) + 10;
 
                 ctx.beginPath();
                 if (color.lightness() < 50) {
@@ -134,8 +140,8 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
                     p = $element.children()[2].getContext('2d').getImageData($event.offsetX, $event.offsetY - canvas.height + 20, 1, 1).data;
                     var selectedHue = paletteService.createColor({red: p[0], green: p[1], blue: p[2]});
                     var selectedColor = paletteService.createColor($scope.selectedColor);
-                    selectedHue.saturation(selectedColor.saturation());
-                    selectedHue.lightness(selectedColor.lightness());
+                    //selectedHue.saturation(selectedColor.saturation());
+                    //selectedHue.lightness(selectedColor.lightness());
                     $scope.selectedColor = selectedHue.getHex();
                 } else {
                     //BS clicked
@@ -143,7 +149,6 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
                     $scope.selectedColor = paletteService.toHex({red: p[0], green: p[1], blue: p[2]});
 
                 }
-                $scope.$digest();
             };
         }
     };
