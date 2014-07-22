@@ -1,0 +1,39 @@
+<div class="imx-colorpicker-wrapper">
+    <!-- Fix header -->
+    <div class="imx-colorpicker-header">
+        <div class="imx-colorpicker-block">
+            <div class="imx-selected-color" imx-color="{{color}}"></div><button>&hearts;</button>
+        </div>
+
+    </div>
+    <!-- Carousel for color picker pages -->
+    <ul data-rn-carousel data-rn-carousel-indicator>
+        <!-- Advanced tab -->
+        <li>
+            <imx-color-shades color="color"></imx-color-shades>
+        </li>
+        <!-- Solid colors tab -->
+        <li>
+            <div class="imx-colorpicker-block">
+                <div class="imx-colorpicker-label">Last used</div>
+                <div class="color-list">
+                    <div class="color-item" data-ng-repeat="color in lastUsed| limitTo : 8" imx-color="{{color}}" ng-click="setActive(color)"></div>
+                </div>
+            </div>
+            <div class="imx-colorpicker-block">
+                <div class="imx-colorpicker-label">Solid colors</div>
+                <div class="color-list"r>
+                    <div class="color-item" data-ng-repeat="color in solidColors" data-imx-color="{{color}}" ng-click="setActive(color)"></div>
+                </div>
+            </div>
+        </li>
+        <!-- Palettes tab -->
+        <li>
+
+        </li>
+        <!-- Favourites tab -->
+        <li>
+
+        </li>
+    </ul>
+</div>
