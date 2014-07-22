@@ -51,21 +51,22 @@ angular.module("imx.colorpicker", ['angular-carousel', 'ngScrollbar']);;angular.
                  */
                 var ctx = canvas.getContext('2d');
                 ctx.clearRect(0, 0, width, height);
-                var hex = color.getHex();
-                ctx.fillStyle = hex;
-                ctx.fillRect(0, 0, width, height);
+                var imageData = ctx.createImageData(width, height).data;
 
-                var grd = ctx.createLinearGradient(0, 0, width, 0);
-                grd.addColorStop(0, "rgba(255,255,255,1.0");
-                grd.addColorStop(1, "rgba(255,255,255,0.0");
-                ctx.fillStyle = grd;
-                ctx.fillRect(0, 0, width, height);
+                for (var i = 0; i < width; i++) {
+                    for (var j = 0; j < height; j++) {
+                        var startPoint = (i*height + j) * 4;
+                        if (i <= 100) color.saturation(i);
+                        if (j <= 100) color.lightness(j);
+                        imageData[startPoint] = color.red();
+                        imageData[startPoint + 1] = color.green();
+                        imageData[startPoint + 2] = color.blue();
+                        imageData[startPoint + 3] = 255;
+                    }
+                }
 
-                var grd2 = ctx.createLinearGradient(0, 0, 0, height);
-                grd2.addColorStop(0, "rgba(0,0,0,0.0");
-                grd2.addColorStop(1, "rgba(0,0,0,1.0");
-                ctx.fillStyle = grd2;
-                ctx.fillRect(0, 0, width, height);
+                ctx.putImageData(imageData, 0, 0);
+
                 if (!hueRendered) {
                     renderHue();
                 }

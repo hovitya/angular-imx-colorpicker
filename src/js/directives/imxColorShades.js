@@ -17,10 +17,6 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
             function renderImage() {
                 //Render saturation and brightness
                 var color = paletteService.createColor($scope.selectedColor);
-                var brightness = color.brightness(),
-                    saturation = color.saturation();
-                color.brightness(100);
-                color.saturation(100);
                 var canvas = $element.children()[1];
                 var width = canvas.width,
                     height = canvas.height;
@@ -30,21 +26,23 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
                  */
                 var ctx = canvas.getContext('2d');
                 ctx.clearRect(0, 0, width, height);
-                var hex = color.getHex();
-                ctx.fillStyle = hex;
-                ctx.fillRect(0, 0, width, height);
+                var imageData = ctx.createImageData(width, height).data;
 
-                var grd = ctx.createLinearGradient(0, 0, width, 0);
-                grd.addColorStop(0, "rgba(255,255,255,1.0");
-                grd.addColorStop(1, "rgba(255,255,255,0.0");
-                ctx.fillStyle = grd;
-                ctx.fillRect(0, 0, width, height);
+                for (var i = 0; i < width; i++) {
+                    for (var j = 0; j < height; j++) {
+                        var startPoint = (i*height + j) * 4;
+                        if (i <= 100) color.saturation(i);
+                        if (j <= 100) color.lightness(j);
+                        imageData[startPoint] = color.red();
+                        imageData[startPoint + 1] = color.green();
+                        imageData[startPoint + 2] = color.blue();
+                        imageData[startPoint + 3] = 255;
+                    }
+                }
 
-                var grd2 = ctx.createLinearGradient(0, 0, 0, height);
-                grd2.addColorStop(0, "rgba(0,0,0,0.0");
-                grd2.addColorStop(1, "rgba(0,0,0,1.0");
-                ctx.fillStyle = grd2;
-                ctx.fillRect(0, 0, width, height);
+                ctx.putImageData(imageData, 0, 0);
+
+
                 if (!hueRendered) {
                     renderHue();
                 }
@@ -96,7 +94,7 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
 
                 //Mark brightness and saturation
                 var saturationPosition = ((color.saturation()) / 100) * canvas.width;
-                var brightnessPosition = (((100-color.brightness()) / 100) * (canvas.height - 30)) + 10;
+                var lightnessPosition = (((100-color.lightness()) / 100) * (canvas.height - 30)) + 10;
 
                 ctx.beginPath();
                 if (color.lightness() < 50) {
@@ -105,7 +103,7 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
                     ctx.strokeStyle = "black";
                 }
                 ctx.lineWidth = 2;
-                ctx.arc(saturationPosition, brightnessPosition, radius, 0, 2 * Math.PI, false);
+                ctx.arc(saturationPosition, lightnessPosition, radius, 0, 2 * Math.PI, false);
                 ctx.stroke();
 
             }
@@ -134,7 +132,11 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
                 } else if ($event.offsetY > canvas.height - 20) {
                     //Hue clicked
                     p = $element.children()[2].getContext('2d').getImageData($event.offsetX, $event.offsetY - canvas.height + 20, 1, 1).data;
-                    $scope.selectedColor = paletteService.toHex({red: p[0], green: p[1], blue: p[2]});
+                    var selectedHue = paletteService.createColor({red: p[0], green: p[1], blue: p[2]});
+                    var selectedColor = paletteService.createColor($scope.selectedColor);
+                    selectedHue.saturation(selectedColor.saturation());
+                    selectedHue.lightness(selectedColor.lightness());
+                    $scope.selectedColor = selectedHue.getHex();
                 } else {
                     //BS clicked
                     p = $element.children()[1].getContext('2d').getImageData($event.offsetX, $event.offsetY - 10, 1, 1).data;
