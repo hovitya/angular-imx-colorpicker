@@ -19,7 +19,8 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
                 var color = paletteService.createColor($scope.selectedColor);
                 var brightness = color.brightness(),
                     saturation = color.saturation();
-                color.lightness(50);
+                color.brightness(100);
+                color.saturation(100);
                 var canvas = $element.children()[1];
                 var width = canvas.width,
                     height = canvas.height;
