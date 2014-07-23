@@ -24,20 +24,54 @@ angular.module("imx.colorpicker", ['angular-carousel', 'ngScrollbar']);;angular.
     return {
         restrict: 'AE',
         replace: true,
+        require: 'ngModel',
         template: "<div class='imx-color-shades-wrapper'>" +
                     "<canvas width='{{canvasWidth}}' height='10' class='imx-color-shades-versions'></canvas>" +
                     "<canvas width='{{canvasWidth}}' height='{{canvasHeight}}' imx-resize='onResize(width, height)' class='imx-color-shades'></canvas>" +
                     "<canvas width='{{canvasWidth}}' height='20' class='imx-color-shades-hue'></canvas>" +
                     "<canvas width='{{canvasWidth}}' height='{{canvasHeight + 30}}' class='imx-color-shades-chrome' ng-click='chromeClicked($event)'></canvas>" +
                     "</div>",
-        scope: {
-            selectedColor: "=color"
-        },
-        link: function ($scope, $element, attrs) {
+        scope: {},
+        link: function ($scope, $element, attrs, ngModelController) {
             var hueRendered = false;
-            function renderImage() {
+
+            ngModelController.$parsers.push(function (viewvalue) {
+                var color = paletteService.createColor();
+                color.hue(viewvalue.hue);
+                color.saturation(viewvalue.saturation);
+                color.brightness(viewvalue.brightness);
+                return color.getHex();
+            });
+
+            ngModelController.$formatters.push(function (modelvalue) {
+                var color = paletteService.createColor(modelvalue);
+                return {
+                    hue: color.hue(),
+                    saturation: color.saturation(),
+                    brightness: color.brightness()
+                };
+            });
+
+            ngModelController.$render = function() {
+                renderImage(ngModelController.$viewValue.hue,
+                    ngModelController.$viewValue.saturation,
+                    ngModelController.$viewValue.brightness);
+                renderChrome(ngModelController.$viewValue.hue,
+                    ngModelController.$viewValue.saturation,
+                    ngModelController.$viewValue.brightness);
+            };
+
+            function updateModel(h,s, b) {
+                ngModelController.$setViewValue({hue:h, saturation: s, brightness: b});
+                ngModelController.$render();
+            }
+
+            function renderImage(hue, sat, bri) {
                 //Render saturation and brightness
-                var color = paletteService.createColor($scope.selectedColor);
+                var color = paletteService.createColor();
+                color.hue(hue);
+                color.saturation(sat);
+                color.brightness(bri);
                 var hex = color.getHex();
                 var canvas = $element.children()[1];
                 var width = canvas.width,
@@ -97,7 +131,7 @@ angular.module("imx.colorpicker", ['angular-carousel', 'ngScrollbar']);;angular.
                 }
             }
 
-            function renderChrome() {
+            function renderChrome(hue, sat, bri) {
                 //Mark hue
                 var canvas = $element.children()[3];
                 var ctx = canvas.getContext('2d');
@@ -106,7 +140,6 @@ angular.module("imx.colorpicker", ['angular-carousel', 'ngScrollbar']);;angular.
 
                 var hueStart = canvas.width - 20;
                 var color = paletteService.createColor($scope.selectedColor);
-                var hue = color.hue();
                 var huePercentage = hue / 360 * 100;
                 var centerX = Math.round(canvas.width * (huePercentage / 100.0));
                 var centerY = hueStart + 4;
@@ -117,8 +150,8 @@ angular.module("imx.colorpicker", ['angular-carousel', 'ngScrollbar']);;angular.
                 ctx.fill();
 
                 //Mark brightness and saturation
-                var saturationPosition = ((color.brightness()) / 100) * canvas.width;
-                var lightnessPosition = (((color.saturation()) / 100) * (canvas.height - 30)) + 10;
+                var saturationPosition = ((bri) / 100) * canvas.width;
+                var lightnessPosition = (((sat) / 100) * (canvas.height - 30)) + 10;
 
                 ctx.beginPath();
                 if (color.lightness() < 50) {
@@ -131,18 +164,13 @@ angular.module("imx.colorpicker", ['angular-carousel', 'ngScrollbar']);;angular.
                 ctx.stroke();
 
             }
+
             $scope.onResize = function (width, height) {
                 $scope.canvasWidth = width;
                 $scope.canvasHeight = height;
-                renderImage();
-                renderHue();
-                renderChrome();
+                ngModelController.$render();
             };
 
-            $scope.$watch('selectedColor', function() {
-                renderImage();
-                renderChrome();
-            });
             $scope.canvasWidth = $element.children()[1].offsetWidth;
             $scope.canvasHeight = $element.children()[1].offsetHeight;
 
@@ -152,20 +180,20 @@ angular.module("imx.colorpicker", ['angular-carousel', 'ngScrollbar']);;angular.
                 if ($event.offsetY <= 10) {
                     //Variations clicked
                     p = $element.children()[0].getContext('2d').getImageData($event.offsetX, $event.offsetY, 1, 1).data;
-                    $scope.selectedColor = paletteService.toHex({red: p[0], green: p[1], blue: p[2]});
+                    var color = paletteService.createColor({red: p[0], green: p[1], blue: p[2]});
+                    updateModel(color.hue(), color.saturation(), color.brightness());
                 } else if ($event.offsetY > canvas.height - 20) {
                     //Hue clicked
                     p = $element.children()[2].getContext('2d').getImageData($event.offsetX, $event.offsetY - canvas.height + 20, 1, 1).data;
                     var selectedHue = paletteService.createColor({red: p[0], green: p[1], blue: p[2]});
-                    var selectedColor = paletteService.createColor($scope.selectedColor);
-                    //selectedHue.saturation(selectedColor.saturation());
-                    //selectedHue.lightness(selectedColor.lightness());
-                    $scope.selectedColor = selectedHue.getHex();
+                    updateModel(selectedHue.hue(), ngModelController.$viewValue.saturation, ngModelController.$viewValue.brightness);
                 } else {
                     //BS clicked
-                    p = $element.children()[1].getContext('2d').getImageData($event.offsetX, $event.offsetY - 10, 1, 1).data;
-                    $scope.selectedColor = paletteService.toHex({red: p[0], green: p[1], blue: p[2]});
-
+                    var coord = {
+                        x: $event.offsetX,
+                        y: $event.offsetY - 10
+                    };
+                    updateModel(ngModelController.$viewValue.hue, coord.x, coord.y);
                 }
             };
         }

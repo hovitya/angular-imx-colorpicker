@@ -28,7 +28,7 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
                     hue: color.hue(),
                     saturation: color.saturation(),
                     brightness: color.brightness()
-                }
+                };
             });
 
             ngModelController.$render = function() {
@@ -142,11 +142,6 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
                 ctx.arc(saturationPosition, lightnessPosition, radius, 0, 2 * Math.PI, false);
                 ctx.stroke();
 
-            }
-
-            function updateModel(hue, sat, bri) {
-                ngModelController.$setViewValue({hue: hue, saturation: sat, brightness: bri});
-                ngModelController.$render();
             }
 
             $scope.onResize = function (width, height) {
