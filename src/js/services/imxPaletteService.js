@@ -883,6 +883,11 @@
     })();
 
     angular.module("imx.colorpicker").service('imxPaletteService', function() {
+        /**
+         *
+         * @param {string} color
+         * @returns {Color}
+         */
         function createColor(color) {
             return new Color(color);
         }

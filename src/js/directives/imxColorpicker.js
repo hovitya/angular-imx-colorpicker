@@ -6,15 +6,14 @@ angular.module('imx.colorpicker').directive('imxColorPicker', ['imxPaletteServic
                 return attrs.templateUrl || 'js/imx-color-picker/colorpicker.html';
             },
             scope: {
-                selectedColor: "=color",
                 baseColors: "=baseColors",
                 format: "&format"
             },
-            link: function ($scope, $element, attrs) {
+            link: function ($scope, $element, attrs, ngModelController) {
                 function populateSolidColors() {
                     $scope.solidColors = paletteService.createSolidColors($scope.baseColors);
                 }
-                $scope.color = $scope.selectedColor;
+                //$scope.color = $scope.selectedColor;
 
                 $scope.lastUsed = ["#FF0000","#00FF00",'#0000FF',"#FF0099","#FFFF00",'#100FFF',"#FF000F","#0FFF00",'#FF00FF'];
 
@@ -29,11 +28,13 @@ angular.module('imx.colorpicker').directive('imxColorPicker', ['imxPaletteServic
                    $scope.color = paletteService.toHex(clr);
                 };
 
-                $scope.$watch('color', function(newValue, oldValue) {
+
+
+                /*$scope.$watch('color', function(newValue, oldValue) {
                     if ($scope.selectedColor !== undefined) {
                         $scope.selectedColor = newValue;
                     }
-                });
+                });*/
 
 
                 populateSolidColors();

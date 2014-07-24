@@ -13,6 +13,7 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
         scope: {},
         link: function ($scope, $element, attrs, ngModelController) {
             var hueRendered = false;
+            var lastRenderedHue;
 
             ngModelController.$parsers.push(function (viewvalue) {
                 var color = paletteService.createColor();
@@ -41,16 +42,24 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
             };
 
             function updateModel(h,s, b) {
-                ngModelController.$setViewValue({hue:h, saturation: s, brightness: b});
-                ngModelController.$render();
+                //$scope.$apply(function () {
+                    ngModelController.$setViewValue({hue: h, saturation: s, brightness: b});
+                    ngModelController.$render();
+                //});
+
             }
 
             function renderImage(hue, sat, bri) {
+                if (!hueRendered) {
+                    renderHue();
+                }
+                if (lastRenderedHue === hue) {
+                    return;
+                }
+                lastRenderedHue = hue;
+
                 //Render saturation and brightness
-                var color = paletteService.createColor();
-                color.hue(hue);
-                color.saturation(sat);
-                color.brightness(bri);
+                var color = paletteService.createColor("hsl("+hue+",100%,50%)");
                 var hex = color.getHex();
                 var canvas = $element.children()[1];
                 var width = canvas.width,
@@ -80,9 +89,7 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
                 ctx.putImageData(data, 0, 0);
 
 
-                if (!hueRendered) {
-                    renderHue();
-                }
+
 
                 //Render versions
                 var versionCanvas = $element.children()[0];
@@ -129,8 +136,8 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
                 ctx.fill();
 
                 //Mark brightness and saturation
-                var saturationPosition = ((bri) / 100) * canvas.width;
-                var lightnessPosition = (((sat) / 100) * (canvas.height - 30)) + 10;
+                var lightnessPosition = ((bri) / 100) * canvas.width;
+                var saturationPosition = (((sat) / 100) * (canvas.height - 30)) + 10;
 
                 ctx.beginPath();
                 if (color.lightness() < 50) {
@@ -139,7 +146,7 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
                     ctx.strokeStyle = "black";
                 }
                 ctx.lineWidth = 2;
-                ctx.arc(saturationPosition, lightnessPosition, radius, 0, 2 * Math.PI, false);
+                ctx.arc(lightnessPosition, saturationPosition,  radius, 0, 2 * Math.PI, false);
                 ctx.stroke();
 
             }
@@ -169,12 +176,14 @@ angular.module('imx.colorpicker').directive('imxColorShades', ['imxPaletteServic
                 } else {
                     //BS clicked
                     var coord = {
-                        x: $event.offsetX,
-                        y: $event.offsetY - 10
+                        x: Math.round($event.offsetX / $scope.canvasWidth  * 100),
+                        y: Math.round(($event.offsetY - 10) / $scope.canvasHeight * 100)
                     };
-                    updateModel(ngModelController.$viewValue.hue, coord.x, coord.y);
+                    updateModel(ngModelController.$viewValue.hue, coord.y, coord.x);
                 }
             };
+
+            ngModelController.$render();
         }
     };
 }]);
