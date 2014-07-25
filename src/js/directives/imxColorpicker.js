@@ -32,7 +32,19 @@ angular.module('imx.colorpicker').directive('imxColorPicker', ['imxPaletteServic
 
                 $scope.$watch('state.color', function(newValue, oldValue) {
                     //update components
-
+                    var color = paletteService.createColor(newValue);
+                    var r = color.red();
+                    var g = color.green();
+                    var b = color.blue();
+                    if ($scope.state.components.red !== r) {
+                        $scope.state.components.red = r;
+                    }
+                    if ($scope.state.components.green !== g) {
+                        $scope.state.components.green = g;
+                    }
+                    if ($scope.state.components.blue !== b) {
+                        $scope.state.components.blue = b;
+                    }
                 });
 
 

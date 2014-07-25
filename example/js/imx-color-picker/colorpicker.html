@@ -13,7 +13,17 @@
             <div class="imx-colorpicker-block">
                 <imx-color-shades ng-model="state.color"></imx-color-shades>
             </div>
-            <input type="text" ng-model="state.color" spellcheck="false" class="imx-hex">
+            <div class="imx-colorpicker-block">
+                <input type="text" ng-model="state.color" spellcheck="false" class="imx-hex">
+                <input type="text" ng-model="state.components.blue" spellcheck="false" class="imx-rgb imx-b">
+                <div class="imx-rgb-label">B</div>
+                <input type="text" ng-model="state.components.green" spellcheck="false" class="imx-rgb imx-g">
+                <div class="imx-rgb-label">G</div>
+                <input type="text" ng-model="state.components.red" spellcheck="false" class="imx-rgb imx-r">
+                <div class="imx-rgb-label">R</div>
+
+            </div>
+
         </li>
         <!-- Solid colors tab -->
         <li>
