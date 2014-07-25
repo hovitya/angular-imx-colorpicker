@@ -2,7 +2,7 @@
     <!-- Fix header -->
     <div class="imx-colorpicker-header">
         <div class="imx-colorpicker-block">
-            <div class="imx-selected-color" imx-color="{{color}}"></div><button>&hearts;</button>
+            <div class="imx-selected-color" imx-color="{{state.color}}"></div><button>&hearts;</button>
         </div>
 
     </div>
@@ -10,8 +10,10 @@
     <ul data-rn-carousel data-rn-carousel-indicator>
         <!-- Advanced tab -->
         <li>
-            <imx-color-shades ng-model="color"></imx-color-shades>
-            <input type="text" ng-model="color"> Color {{color}}
+            <div class="imx-colorpicker-block">
+                <imx-color-shades ng-model="state.color"></imx-color-shades>
+            </div>
+            <input type="text" ng-model="state.color" spellcheck="false" class="imx-hex">
         </li>
         <!-- Solid colors tab -->
         <li>

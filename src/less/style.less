@@ -69,6 +69,21 @@
       border-color: @activeColor;
     }
   }
+
+  input[type='text'] {
+    border-radius: 0px;
+    border: 1px solid @fadedColor;
+    color: @fadedColor;
+    font-family: @font;
+    background: none;
+    margin: 0 0 0 0;
+    padding: 5px 5px 5px 5px;
+    outline: none;
+    &:hover,&:focus {
+      color: @activeColor;
+      border-color: @activeColor;
+    }
+  }
 }
 
 .imx-colorpicker-label {

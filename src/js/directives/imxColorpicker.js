@@ -13,7 +13,7 @@ angular.module('imx.colorpicker').directive('imxColorPicker', ['imxPaletteServic
                 function populateSolidColors() {
                     $scope.solidColors = paletteService.createSolidColors($scope.baseColors);
                 }
-                //$scope.color = $scope.selectedColor;
+                $scope.state = {color : "#000000", components: {red: 0, green: 0, blue: 0}};
 
                 $scope.lastUsed = ["#FF0000","#00FF00",'#0000FF',"#FF0099","#FFFF00",'#100FFF',"#FF000F","#0FFF00",'#FF00FF'];
 
@@ -25,16 +25,15 @@ angular.module('imx.colorpicker').directive('imxColorPicker', ['imxPaletteServic
                 );
 
                 $scope.setActive = function (clr) {
-                   $scope.color = paletteService.toHex(clr);
+                   $scope.state.color = paletteService.toHex(clr);
                 };
 
 
 
-                /*$scope.$watch('color', function(newValue, oldValue) {
-                    if ($scope.selectedColor !== undefined) {
-                        $scope.selectedColor = newValue;
-                    }
-                });*/
+                $scope.$watch('state.color', function(newValue, oldValue) {
+                    //update components
+
+                });
 
 
                 populateSolidColors();
