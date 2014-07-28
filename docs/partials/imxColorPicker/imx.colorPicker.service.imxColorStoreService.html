@@ -1,0 +1,36 @@
+<h1><code ng:non-bindable="">imxColorStoreService</code>
+<div><span class="hint">service in module <code ng:non-bindable="">imx.colorPicker</code>
+</span>
+</div>
+</h1>
+<div><div class="member method"><h2 id="methods">Methods</h2>
+<ul class="methods"><li><h3 id="methods_getpalette">getPalette(paletteId)</h3>
+<div class="getpalette"><h5 id="methods_getpalette_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>paletteId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="getpalette-page"><p>Palette identifier</p>
+</div></td></tr></tbody></table><h5 id="methods_getpalette_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-array">Array</a></td><td><div class="getpalette-page"><p>Palette (array of hex strings)</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_hascolor">hasColor(color, paletteId)</h3>
+<div class="hascolor"><h5 id="methods_hascolor_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>color</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="hascolor-page"><p>Color hex</p>
+</div></td></tr><tr><td>paletteId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="hascolor-page"><p>Palette identifier</p>
+</div></td></tr></tbody></table><h5 id="methods_hascolor_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="hascolor-page"><p>Color exists on palette</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_onpalettechanged">onPaletteChanged(func)</h3>
+<div class="onpalettechanged"><h5 id="methods_onpalettechanged_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>func</td><td><a href="" class="label type-hint type-hint-callback">callback</a></td><td><div class="onpalettechanged-page"><p>Callback function when palette changed. Callback signature: <code>function (paletteId) { }</code> paletteId could be empty string if all palette updated.</p>
+</div></td></tr></tbody></table></div>
+</li>
+<li><h3 id="methods_removecolor">removeColor(color, paletteId)</h3>
+<div class="removecolor"><h5 id="methods_removecolor_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>color</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="removecolor-page"><p>Color hex</p>
+</div></td></tr><tr><td>paletteId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="removecolor-page"><p>Palette identifier</p>
+</div></td></tr></tbody></table></div>
+</li>
+<li><h3 id="methods_storecolor">storeColor(color, paletteId, prepend, limit)</h3>
+<div class="storecolor"><h5 id="methods_storecolor_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>color</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="storecolor-page"><p>Color hex</p>
+</div></td></tr><tr><td>paletteId</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="storecolor-page"><p>Palette identifier</p>
+</div></td></tr><tr><td>prepend</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="storecolor-page"><p>Prepend value to palette</p>
+</div> <p><em>(default: false)</em></p></td></tr><tr><td>limit</td><td><a href="" class="label type-hint type-hint-number">number</a></td><td><div class="storecolor-page"><p>Limit palette size</p>
+</div> <p><em>(default: 100)</em></p></td></tr></tbody></table></div>
+</li>
+</ul>
+</div>
+</div>
