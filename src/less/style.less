@@ -1,21 +1,25 @@
 @import "config.less";
+@import "animations.less";
 
 .element() {
   border-radius: 2px;
 }
 
 .imx-color-box() {
-  -webkit-box-shadow: inset 1px 1px 1px 0px rgba(50, 50, 50, 0.2);
-  -moz-box-shadow:    inset 1px 1px 1px 0px rgba(50, 50, 50, 0.2);
   box-shadow:         inset 1px 1px 1px 0px rgba(50, 50, 50, 0.2);
   .element();
 }
 
+.un-selectable() {
+  user-select: none;
+  cursor: default;
+}
+
 .list-item(@itemNumber, @padding) {
   position: relative;
-  width: -moz-calc(floor(100%*(1/@itemNumber)) ~"-" @padding);
-  width: -webkit-calc(floor(100%*(1/@itemNumber) )~"-" @padding);
-  width: calc(floor(100%*(1/@itemNumber)) ~"-" @padding);
+  width: -moz-calc(100%*(1/@itemNumber) ~"-" @padding);
+  width: -webkit-calc(100%*(1/@itemNumber) ~"-" @padding);
+  width: calc((100%*(1/@itemNumber)) ~"-" @padding);
   height: 0;
   padding-bottom: -moz-calc(floor(100%*(1/@itemNumber)) ~"-" @padding);
   padding-bottom: -webkit-calc(floor(100%*(1/@itemNumber) )~"-" @padding);
@@ -30,14 +34,7 @@
   margin-top: -1*@padding;
 }
 
-.imx-selected-color {
-  position: relative;
-  width: -moz-calc(floor(100%*(1/@listNumberOfElements)*1.5) ~"-" @listPadding);
-  width: -webkit-calc(floor(100%*(1/@listNumberOfElements)*1.5 )~"-" @listPadding);
-  width: calc(floor(100%*(1/@listNumberOfElements)*1.5) ~"-" @listPadding);
-  height: 22px;
-  display: inline-block;
-}
+
 
 .color-list {
   .list-container(@listPadding);
@@ -50,13 +47,24 @@
 
 
 .imx-colorpicker-wrapper {
+  ul{
+    font-size: 0;
+    li{
+      font-size: 12px;
+    }
+  }
+  display: inline-block;
   width: @desktopWidth;
   background-color: @panelBackground;
   color: @textColor;
   font-family: @font;
   padding: 5px;
+  box-shadow: 1px 1px 2px 0px rgba(50, 50, 50, 0.5);
   .imx-colorpicker-block {
     margin-bottom: 10px;
+    &.fix-overflow {
+      padding-right: 2px;
+    }
   }
   button {
     border-radius: 0px;
@@ -75,16 +83,23 @@
     font-size: 12px;
     color: @fadedColor;
     margin-left: 4px;
-    padding-right: 2px;
+    padding-left: 5px;
+
     line-height: 24px;
     border: 1px solid @fadedColor;
     border-right: none;
+    .un-selectable();
+    &.active {
+      color: @activeColor;
+      border-color: @activeColor;
+    }
   }
 
   input[type='text'] {
+    line-height: 14px;
+    font-size: 12px;
     border-radius: 0px;
     border: 1px solid @fadedColor;
-    border-left: none;
     color: @fadedColor;
     font-family: @font;
     background: none;
@@ -100,19 +115,61 @@
     }
 
     &.imx-rgb {
-      width: 20px;
+      width: 25px;
       float: right;
+      border-left: none;
     }
+
+
+
+  }
+
+  .imx-colorPicker-label {
+    font-weight: @labelWeight;
+    text-transform: uppercase;
+    font-size: @labelSize;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    .un-selectable();
+  }
+
+  .imx-selected-color {
+    width: 33px;
+    height: 22px;
+    float: left;
+    margin-right: 5px;
+    .element();
+  }
+
+  .imx-fav-button {
+    margin: 0 0 0 0;
+    float: left;
+    &.active {
+      background-color: @fadedColor;
+      color: @panelBackground;
+      &:hover {
+        background-color: @activeColor;
+        border-color: @activeColor;
+      }
+    }
+  }
+
+  .imx-colorpicker-header {
+    height: 22px;
+  }
+
+  .imx-last-used {
+    min-height: 26px;
+  }
+
+
+  .imx-colorpicker-close {
+    float: right;
+    border: none;
   }
 }
 
-.imx-colorpicker-label {
-  font-weight: @labelWeight;
-  text-transform: uppercase;
-  font-size: @labelSize;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
+
 
 .rn-carousel-indicator {
   background: none;
@@ -126,13 +183,11 @@
 }
 
 .imx-color-shades-wrapper {
-  width: ~"calc(100% - 4px)";
+  width: ~"calc(100% - 2px)";
   height: 240px;
   line-height: 0px;
   overflow: hidden;
   .element();
-  -webkit-box-shadow: 1px 1px 2px 0px rgba(50, 50, 50, 0.5);
-  -moz-box-shadow:    1px 1px 2px 0px rgba(50, 50, 50, 0.5);
   box-shadow:         1px 1px 2px 0px rgba(50, 50, 50, 0.5);
   position: relative;
   .imx-color-shades {
@@ -153,8 +208,9 @@
     position: absolute;
     left: 0px;
     top: 0px;
-    bottom: 0px;
-    right: 0px;
+    height: 100%;
+    width: 100%;
   }
+
 }
 

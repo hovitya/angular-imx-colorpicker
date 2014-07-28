@@ -1,52 +1,85 @@
 <div class="imx-colorpicker-wrapper">
     <!-- Fix header -->
-    <div class="imx-colorpicker-header">
-        <div class="imx-colorpicker-block">
-            <div class="imx-selected-color" imx-color="{{state.color}}"></div><button>&hearts;</button>
+        <div class="imx-colorpicker-block imx-colorpicker-header" imx-resize="resize(width, height)">
+            <div class="imx-selected-color" imx-color-display="{{state.color}}" ></div>
+            <button class="imx-fav-button" ng-class="{active: favouriteSelected}" ng-click="toggleFavourite(state.color)">&hearts;</button>
+            <button class="imx-colorpicker-close" ng-show="onDemandMode">&#10005; close</button>
         </div>
 
-    </div>
     <!-- Carousel for color picker pages -->
     <ul data-rn-carousel data-rn-carousel-indicator>
+        <!-- Solid colors tab -->
+        <li>
+            <div class="imx-colorpicker-block">
+                <div class="imx-colorPicker-label">Last used</div>
+                <div class="color-list imx-last-used">
+                    <div class="color-item" data-ng-repeat="color in history| limitTo : 8" imx-color-display="{{color}}" ng-click="setActive(color)"></div>
+                </div>
+            </div>
+            <div class="imx-colorpicker-block">
+                <div class="imx-colorPicker-label">Solid colors</div>
+                <div class="color-list">
+                    <div class="color-item" data-ng-repeat="color in solidColors" imx-color-display="{{color}}" ng-click="setActive(color)"></div>
+                </div>
+            </div>
+        </li>
         <!-- Advanced tab -->
         <li>
             <div class="imx-colorpicker-block">
                 <imx-color-shades ng-model="state.color"></imx-color-shades>
             </div>
-            <div class="imx-colorpicker-block">
-                <input type="text" ng-model="state.color" spellcheck="false" class="imx-hex">
-                <input type="text" ng-model="state.components.blue" spellcheck="false" class="imx-rgb imx-b">
-                <div class="imx-rgb-label">B</div>
-                <input type="text" ng-model="state.components.green" spellcheck="false" class="imx-rgb imx-g">
-                <div class="imx-rgb-label">G</div>
-                <input type="text" ng-model="state.components.red" spellcheck="false" class="imx-rgb imx-r">
-                <div class="imx-rgb-label">R</div>
+            <div class="imx-colorpicker-block fix-overflow">
+                <input type="text"
+                       ng-model="state.color"
+                       spellcheck="false"
+                       class="imx-hex"
+                       maxlength="7"
+                       ng-model-options="{ updateOn: 'default blur', debounce: {'default': 10000, 'blur': 0} }">
+                <input type="text"
+                       ng-model="state.components.blue"
+                       spellcheck="false"
+                       maxlength="3"
+                       class="imx-rgb imx-b"
+                       ng-mouseenter="bHover = true;"
+                       ng-mouseleave="bHover = false;"
+                       ng-focus="bActive = true;"
+                       ng-blur="bActive = false;"
+                       ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }">
+                <div class="imx-rgb-label" ng-class="{active: bHover || bActive}">B</div>
+                <input type="text"
+                       ng-model="state.components.green"
+                       maxlength="3"
+                       spellcheck="false"
+                       class="imx-rgb imx-g"
+                       ng-mouseenter="gHover = true;"
+                       ng-mouseleave="gHover = false;"
+                       ng-focus="gActive = true;"
+                       ng-blur="gActive = false;"
+                       ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }">
+                <div class="imx-rgb-label" ng-class="{active: gHover || gActive}">G</div>
+                <input type="text"
+                       ng-model="state.components.red"
+                       maxlength="3"
+                       spellcheck="false"
+                       class="imx-rgb imx-r"
+                       ng-mouseenter="rHover = true;"
+                       ng-mouseleave="rHover = false;"
+                       ng-focus="rActive = true;"
+                       ng-blur="rActive = false;"
+                       ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }">
+                <div class="imx-rgb-label" ng-class="{active: rHover || rActive}">R</div>
 
             </div>
-
-        </li>
-        <!-- Solid colors tab -->
-        <li>
-            <div class="imx-colorpicker-block">
-                <div class="imx-colorpicker-label">Last used</div>
-                <div class="color-list">
-                    <div class="color-item" data-ng-repeat="color in lastUsed| limitTo : 8" imx-color="{{color}}" ng-click="setActive(color)"></div>
-                </div>
-            </div>
-            <div class="imx-colorpicker-block">
-                <div class="imx-colorpicker-label">Solid colors</div>
-                <div class="color-list"r>
-                    <div class="color-item" data-ng-repeat="color in solidColors" data-imx-color="{{color}}" ng-click="setActive(color)"></div>
-                </div>
-            </div>
-        </li>
-        <!-- Palettes tab -->
-        <li>
 
         </li>
         <!-- Favourites tab -->
         <li>
-
+            <div class="imx-colorpicker-block">
+                <div class="imx-colorPicker-label">Favourites</div>
+                <div class="color-list">
+                    <div class="color-item" data-ng-repeat="color in favourites" imx-color-display="{{color}}" ng-click="setActive(color)"></div>
+                </div>
+            </div>
         </li>
     </ul>
 </div>

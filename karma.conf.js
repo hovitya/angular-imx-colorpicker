@@ -15,11 +15,13 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'src/js/*.js src/js/**/*.js tests/*.spec.js',
-      'src/js/*.js, src/js/**/*.js, tests/*.spec.js',
+        'bower_components/angular/angular.js',
+        'bower_components/angular-mocks/angular-mocks.js',
+        'bower_components/angular-touch/angular-touch.js',
+        'bower_components/angular-carousel/dist/angular-carousel.js',
+        'bower_components/ng-scrollbar/dist/ng-scrollbar.js',
       'src/js/*.js',
       'src/js/**/*.js',
-      'tests/*.spec.js',
       'tests/*.spec.js'
     ],
 

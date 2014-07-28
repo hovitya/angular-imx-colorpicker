@@ -14,10 +14,18 @@
     <script type="text/javascript" src="js/imx-color-picker/angular-imx-colorpicker.js"></script>
     <title></title>
 </head>
-<body>
-    <imx-color-picker></imx-color-picker>
+<body ng-controller="demoCtrl">
+    <div>
+        <input type="text" ng-model="color.hex"><button ng-click="visible = true;">Show</button><button ng-click="visible = false;">hide</button>{{ color.hex }}
+    </div>
+    <imx-color-picker ng-show="visible" data-closable="true" selected-color="color.hex"></imx-color-picker>
+
     <script type="text/javascript">
-        angular.module('demo',['imx.colorpicker']);
+        angular.module('demo',['imx.colorPicker'])
+                .controller('demoCtrl',  ['$scope', function($scope) {
+                    $scope.visible = false;
+                    $scope.color = {hex: '#FFFFFF'};
+                }]);
     </script>
 </body>
 </html>

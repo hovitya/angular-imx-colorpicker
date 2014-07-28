@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        clean: ["dist", "example"],
+        clean: ["dist", "example", 'docs'],
         concat: {
             options: {
                 separator: ';'
@@ -40,6 +40,14 @@ module.exports = function(grunt) {
                 }
             }
         },
+        autoprefixer: {
+            options: {
+                browsers: ['last 3 versions', 'bb 10', 'android 3']
+            },
+            your_target: {
+                src: "dist/<%= pkg.name %>.css"
+            }
+        },
         copy: {
             main: {
                 files: [
@@ -51,6 +59,18 @@ module.exports = function(grunt) {
                     {expand: true, flatten: true, src: ['dist/*', 'src/template/partials/*'], dest: 'example/js/imx-color-picker/', filter: 'isFile'}
                 ]
             }
+        },
+        ngdocs: {
+            options: {
+                dest: 'docs',
+                html5Mode: false,
+                startPage: 'docs'
+            },
+            imxColorPicker: {
+                api: true,
+                src: ['src/js/*.js', 'src/js/**/*.js'],
+                title: 'IMX ColorPicker Documentation'
+            }
         }
     });
 
@@ -59,10 +79,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-autoprefixer');
+    grunt.loadNpmTasks('grunt-ngdocs');
 
     grunt.registerTask('test', ['jshint']);
 
-    grunt.registerTask('default', ['jshint', 'clean', 'concat', 'less', 'copy']);
+    grunt.registerTask('default', ['jshint', 'clean', 'concat', 'less', 'autoprefixer', 'copy', 'ngdocs']);
 
 };
 }());

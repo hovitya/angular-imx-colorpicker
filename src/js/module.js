@@ -1,1 +1,5 @@
-angular.module("imx.colorpicker", ['angular-carousel', 'ngScrollbar']);
+/**
+ * @ngdoc overview
+ * @name imx.colorPicker
+ */
+angular.module("imx.colorPicker", ['angular-carousel', 'ngScrollbar']);
