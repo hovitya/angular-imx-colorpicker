@@ -59,7 +59,7 @@
   color: @textColor;
   font-family: @font;
   padding: 5px;
-  box-shadow: 1px 1px 2px 0px rgba(50, 50, 50, 0.5);
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.75);
   .imx-colorpicker-block {
     margin-bottom: 10px;
     &.fix-overflow {
@@ -214,3 +214,60 @@
 
 }
 
+
+.imx-color-popup-wrapper {
+  width: @desktopWidth + 2 * @panelPadding;
+
+  .left-side-arrow {
+    float: left;
+  }
+  .right-side-arrow {
+    float: right;
+  }
+
+  .arrow-clear {
+    clear: both;
+  }
+
+  .arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+
+    border-bottom: 5px solid @panelBackground;
+    &.left-side-arrow {
+      margin-left: @panelPadding;
+    }
+    &.right-side-arrow {
+      margin-right: @panelPadding;
+    }
+  }
+
+  .arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+
+    border-top: 20px solid #f00;
+  }
+
+  .arrow-right {
+    width: 0;
+    height: 0;
+    border-top: 60px solid transparent;
+    border-bottom: 60px solid transparent;
+
+    border-left: 60px solid green;
+  }
+
+  .arrow-left {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+
+    border-right:10px solid blue;
+  }
+}

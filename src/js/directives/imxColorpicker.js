@@ -10,6 +10,7 @@
  * @param {boolean} closable Display close button on color picker ui and call provided on-close function when it clicked. Current selected color will be added to last used list on close.
  * @param {=Array} baseColors Solid colors will be populated using these base colors. (array of color string)
  * @param {string} ngModel Assignable angular expression to data-bind to. Data will be bind in the specified format.
+ * @param {function} onClose Close callback.
  * @description
  * Render color picker component.
  *
@@ -30,13 +31,14 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
             restrict: 'AE',
             replace: true,
             templateUrl: function(elem,attrs) {
-                return attrs.templateUrl || 'js/imx-color-picker/colorPicker.html';
+                return attrs.templateUrl || 'template/partials/colorPicker.html';
             },
             scope: {
                 baseColors: "=baseColors",
                 format: "&format",
                 closable: "&closable",
-                selectedColor: "="
+                selectedColor: "=",
+                onClose: '&'
             },
             link: function(scope, $elem, attrs) {
                 function setSelectedColor(viewValue) {
@@ -158,9 +160,13 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
 
                 // Workaround for rn-carousel and imxColorShades resize problem
                 scope.resize = function () {
-                    angular.element($window).triggerHandler('orientationchange');
+                    //angular.element($window).triggerHandler('orientationchange');
                 };
 
+                scope.close = function () {
+                    imxColorStoreService.storeColor(scope.selectedColor, PaletteIds.History, true, 8);
+                    scope.onClose({});
+                };
             }
         };
     }]

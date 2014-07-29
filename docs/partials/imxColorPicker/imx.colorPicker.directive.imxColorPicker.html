@@ -20,14 +20,16 @@
        format="{string}"
        closable="{boolean}"
        base-colors="{=Array}"
-       ng-model="{string}"&gt;
+       ng-model="{string}"
+       on-close="{function}"&gt;
 &lt;/imx-color-picker&gt;</pre>
 as attribute<pre class="prettyprint linenums">&lt;ANY imx-color-picker
      template-url="{string}"
      format="{string}"
      closable="{boolean}"
      base-colors="{=Array}"
-     ng-model="{string}"&gt;
+     ng-model="{string}"
+     on-close="{function}"&gt;
    ...
 &lt;/ANY&gt;</pre>
 <h3 id="usage_directive-info">Directive info</h3>
@@ -39,5 +41,6 @@ as attribute<pre class="prettyprint linenums">&lt;ANY imx-color-picker
 </div></td></tr><tr><td>closable</td><td><a href="" class="label type-hint type-hint-boolean">boolean</a></td><td><div class="imx-colorpicker-directive-page imx-colorpicker-directive-imxcolorpicker-page"><p>Display close button on color picker ui and call provided on-close function when it clicked. Current selected color will be added to last used list on close.</p>
 </div></td></tr><tr><td>baseColors</td><td><a href="" class="label type-hint type-hint-object">=Array</a></td><td><div class="imx-colorpicker-directive-page imx-colorpicker-directive-imxcolorpicker-page"><p>Solid colors will be populated using these base colors. (array of color string)</p>
 </div></td></tr><tr><td>ngModel</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="imx-colorpicker-directive-page imx-colorpicker-directive-imxcolorpicker-page"><p>Assignable angular expression to data-bind to. Data will be bind in the specified format.</p>
+</div></td></tr><tr><td>onClose</td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="imx-colorpicker-directive-page imx-colorpicker-directive-imxcolorpicker-page"><p>Close callback.</p>
 </div></td></tr></tbody></table></div>
 </div>

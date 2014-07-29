@@ -26,7 +26,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "imx.colorPicker",
       "shortDescription": "Render color picker component.",
-      "keywords": "ae angular assignable base basecolors bind button call clicked closable close color colorpicker colors component current data data-bind directive display example expression format function hex html imx imxcolorpicker list mycolor ng-model ngmodel on-close output picker populated provided render selected service solid string template templateurl ui url"
+      "keywords": "ae angular assignable base basecolors bind button call callback clicked closable close color colorpicker colors component current data data-bind directive display example expression format function hex html imx imxcolorpicker list mycolor ng-model ngmodel on-close onclose output picker populated provided render selected service solid string template templateurl ui url"
     },
     {
       "section": "imxColorPicker",

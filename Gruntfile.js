@@ -6,12 +6,22 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         clean: ["dist", "example", 'docs'],
+        html2js: {
+            options: {
+                module: "imxColorPickerTemplates",
+                useStrict: true
+            },
+            main: {
+                src: ['src/template/partials/colorPicker.html'],
+                dest: 'dist/templates.js'
+            }
+        },
         concat: {
             options: {
                 separator: ';'
             },
             dist: {
-                src: ['src/js/*.js','src/js/**/*.js'],
+                src: ['dist/templates.js', 'src/js/*.js','src/js/**/*.js'],
                 dest: 'dist/<%= pkg.name %>.js'
             }
         },
@@ -74,6 +84,7 @@ module.exports = function(grunt) {
         }
     });
 
+    grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -84,7 +95,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('test', ['jshint']);
 
-    grunt.registerTask('default', ['jshint', 'clean', 'concat', 'less', 'autoprefixer', 'copy', 'ngdocs']);
+    grunt.registerTask('default', ['jshint', 'clean', 'html2js', 'concat', 'less', 'autoprefixer', 'copy', 'ngdocs']);
 
 };
 }());
