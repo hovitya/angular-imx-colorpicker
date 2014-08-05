@@ -216,7 +216,9 @@
 
 
 .imx-color-popup-wrapper {
+  z-index: @popUpZIndex;
   width: @desktopWidth + 2 * @panelPadding;
+  position: absolute;
 
   .left-side-arrow {
     float: left;
@@ -247,27 +249,17 @@
   .arrow-down {
     width: 0;
     height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-
-    border-top: 20px solid #f00;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid @panelBackground;
+    z-index: @popUpZIndex + 2;
   }
 
-  .arrow-right {
-    width: 0;
-    height: 0;
-    border-top: 60px solid transparent;
-    border-bottom: 60px solid transparent;
-
-    border-left: 60px solid green;
+  .imx-colorpicker-wrapper {
+    z-index: @popUpZIndex + 1;
   }
+}
 
-  .arrow-left {
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-
-    border-right:10px solid blue;
-  }
+.imx-color-input {
+  cursor: pointer;
 }

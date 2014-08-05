@@ -19,7 +19,7 @@
             <div class="imx-colorpicker-block">
                 <div class="imx-colorPicker-label">Solid colors</div>
                 <div class="color-list">
-                    <div class="color-item" data-ng-repeat="color in solidColors" imx-color-display="{{color}}" ng-click="setActive(color)"></div>
+                    <div class="color-item" data-ng-repeat="color in solidColors| limitTo : 56" imx-color-display="{{color}}" ng-click="setActive(color)"></div>
                 </div>
             </div>
         </li>
