@@ -35,8 +35,8 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
             },
             scope: {
                 baseColors: "=baseColors",
-                format: "&format",
-                closable: "&closable",
+                format: "@format",
+                closable: "@closable",
                 selectedColor: "=",
                 onClose: '&'
             },
@@ -154,14 +154,14 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
                     }
                 });
 
-                scope.$watch('closable', function (newValue) {
-                    scope.onDemandMode = newValue;
+                scope.$watch('closable', function (newValue, oldValue) {
+                    if(!newValue || newValue === undefined || newValue === null || newValue === "false") {
+                        scope.onDemandMode = false;
+                    } else {
+                        scope.onDemandMode = true;
+                    }
                 });
 
-                // Workaround for rn-carousel and imxColorShades resize problem
-                scope.resize = function () {
-                    //angular.element($window).triggerHandler('orientationchange');
-                };
 
                 scope.close = function () {
                     imxColorStoreService.storeColor(scope.selectedColor, PaletteIds.History, true, 8);

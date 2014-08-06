@@ -21,7 +21,9 @@ angular.module("imx.colorPicker").directive('imxResize', ['$timeout', function (
                     if (newWidth !== width || newHeight !== height) {
                         width = newWidth;
                         height = newHeight;
-                        scope.method({width: newWidth, height: newHeight});
+                        scope.$apply(function() {
+                            scope.method({width: newWidth, height: newHeight});
+                        });
                     }
                     $timeout(check, timeout);
                 }, undefined);

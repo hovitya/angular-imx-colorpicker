@@ -1,11 +1,11 @@
-angular.module('imxColorPickerTemplates', ['template/partials/colorPicker.html']);
+angular.module('imxColorPickerTemplates', ['template/partials/colorPicker.html', 'template/partials/popover.html']);
 
 angular.module("template/partials/colorPicker.html", []).run(["$templateCache", function($templateCache) {
   "use strict";
   $templateCache.put("template/partials/colorPicker.html",
     "<div class=\"imx-colorpicker-wrapper\">\n" +
     "    <!-- Fix header -->\n" +
-    "        <div class=\"imx-colorpicker-block imx-colorpicker-header\" imx-resize=\"resize(width, height)\">\n" +
+    "        <div class=\"imx-colorpicker-block imx-colorpicker-header\">\n" +
     "            <div class=\"imx-selected-color\" imx-color-display=\"{{state.color}}\" ></div>\n" +
     "            <button class=\"imx-fav-button\" ng-class=\"{active: favouriteSelected}\" ng-click=\"toggleFavourite(state.color)\">&hearts;</button>\n" +
     "            <button class=\"imx-colorpicker-close\" ng-show=\"onDemandMode\" ng-click=\"close()\">&#10005; close</button>\n" +
@@ -89,6 +89,23 @@ angular.module("template/partials/colorPicker.html", []).run(["$templateCache", 
     "    </ul>\n" +
     "</div>");
 }]);
+
+angular.module("template/partials/popover.html", []).run(["$templateCache", function($templateCache) {
+  "use strict";
+  $templateCache.put("template/partials/popover.html",
+    "<div class=\"imx-popup-wrapper imx-color-popup-wrapper\" ng-show=\"state.shown\">\n" +
+    "    <div class=\"arrow-up left-side-arrow\" ng-show=\"state.up && state.left\"></div>\n" +
+    "    <div class=\"arrow-up right-side-arrow\" ng-show=\"state.up && !state.left\"></div>\n" +
+    "    <div class=\"arrow-clear\"></div>\n" +
+    "    <div class=\"imx-popover-content\">\n" +
+    "        <div ng-transclude></div>\n" +
+    "    </div>\n" +
+    "    <div class=\"bottom-arrow-container\">\n" +
+    "        <div class=\"arrow-down left-side-arrow\" ng-show=\"!state.up && state.left\"></div>\n" +
+    "        <div class=\"arrow-down right-side-arrow\" ng-show=\"!state.up && !state.left\"></div>\n" +
+    "    </div>\n" +
+    "</div>");
+}]);
 ;/**
  * @ngdoc overview
  * @name imx.colorPicker
@@ -124,111 +141,45 @@ angular.module("imx.colorPicker").directive('imxColorDisplay', ['imxPaletteServi
 }]);;angular.module('imx.colorPicker').directive('input', ['$compile', '$rootScope', function ($compile, $rootScope) {
     "use strict";
 
-    var VerticalPosition = {
-        Top: 0,
-        Bottom: 1
-    };
-
-    var HorizontalPosition = {
-        Left: 0,
-        Right: 1
-    };
-
     return {
         restrict: 'E',
         require: '?ngModel',
         link: function (scopeOriginal, element, attr, ngModelController) {
-            function reposition() {
-                var cumulativeOffset = function(element) {
-                    var top = 0, left = 0, width = element.offsetWidth, height = element.offsetHeight;
-                    do {
-                        top += element.offsetTop  || 0;
-                        left += element.offsetLeft || 0;
-                        element = element.offsetParent;
-                    } while(element);
-
-                    return {
-                        top: top,
-                        left: left,
-                        width: width,
-                        height: height
-                    };
-                };
-
-
-                var offset = cumulativeOffset(element[0]);
-                var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-                var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-
-                if (scope.state.left) {
-                    colorMenu.css('right','auto');
-                    colorMenu.css('left',offset.left + "px");
-                } else {
-                    colorMenu.css('left','auto');
-                    colorMenu.css('right',(w - offset.left - offset.width) + "px");
-                }
-
-                if (scope.state.up) {
-                    colorMenu.css('bottom','auto');
-                    colorMenu.css('top',(offset.top + offset.height) + "px");
-                } else {
-                    colorMenu.css('top','auto');
-                    colorMenu.css('bottom',(h - offset.top) + "px");
-                }
-            }
-
-            function showWindow () {
-                var clientRect = element[0].getBoundingClientRect();
-                var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-                var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-                var vertical = VerticalPosition.Bottom;
-                var horizontal = HorizontalPosition.Left;
-                var topGap = clientRect.top;
-                var bottomGap = h - clientRect.bottom;
-                var leftGap = clientRect.left;
-                var rightGap = w - clientRect.right;
-                if (topGap > bottomGap) {
-                    vertical = VerticalPosition.Top;
-                }
-                if (rightGap > leftGap) {
-                    horizontal = HorizontalPosition.Right;
-                }
-
-                scope.state.up = (vertical == VerticalPosition.Bottom);
-                scope.state.left = (horizontal == HorizontalPosition.Right);
-                reposition();
-
-                scope.state.shown = true;
-            }
-
             if (attr.type !== "imx-color") {
                 return;
             }
-            var scope = $rootScope.$new(true);
+
+
+
+            var scope = $rootScope.$new(false);
 
             scope.state = {
-                color: attr.value || "#FFFFFF",
-                shown: false
+                color: attr.value || "#FFFFFF"
             };
-            var colorMenu = angular.element('<div class="imx-color-popup-wrapper" ng-show="state.shown">' +
-                '<div class="arrow-up left-side-arrow" ng-show="state.up && state.left"></div>' +
-                '<div class="arrow-up right-side-arrow" ng-show="state.up && !state.left"></div>' +
-                '<div class="arrow-clear"></div>' +
-                '<imx-color-picker selected-color="state.color" on-close="state.shown = false;"></imx-color-picker>' +
-                '<div class="bottom-arrow-container">' +
-                '<div class="arrow-down left-side-arrow" ng-show="!state.up && state.left"></div>' +
-                '<div class="arrow-down right-side-arrow" ng-show="!state.up && !state.left"></div>' +
-                '</div>' +
-                '</div>');
+
+            var colorMenu = angular.element('<imx-pop-over>' +
+                '<imx-color-picker selected-color="state.color" on-close="state.shown = false;" closable="true"></imx-color-picker>' +
+                '</imx-pop-over>');
             element.after(colorMenu);
             element.attr('readonly', true);
             element.addClass('imx-color-input');
 
             $compile(colorMenu)(scope);
 
-            element.on('click', function() {
-                showWindow();
+            var popOverCtrl = angular.element(colorMenu).controller('imxPopOver');
+
+            popOverCtrl.setTargetElement(element);
+
+
+
+            scope.$on('imx-popover-open', function (event, args) {
+                if (args.target !== colorMenu) {
+                    scope.state.shown = false;
+                }
             });
+
+
+
 
             scope.$watch('state.color', function(newValue) {
                 if (ngModelController) {
@@ -392,7 +343,7 @@ angular.module('imx.colorPicker').directive('imxColorShades', ['imxPaletteServic
                 var hueStart = canvas.width - 20;
                 var huePercentage = hue / Parameters.MaxHue * 100;
                 var centerX = Math.round(canvas.width * (huePercentage / 100.0));
-                var centerY = hueStart + 4;
+                var centerY = hueStart + 2;
                 var radius = 4;
 
                 ctx.beginPath();
@@ -508,8 +459,8 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
             },
             scope: {
                 baseColors: "=baseColors",
-                format: "&format",
-                closable: "&closable",
+                format: "@format",
+                closable: "@closable",
                 selectedColor: "=",
                 onClose: '&'
             },
@@ -627,14 +578,14 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
                     }
                 });
 
-                scope.$watch('closable', function (newValue) {
-                    scope.onDemandMode = newValue;
+                scope.$watch('closable', function (newValue, oldValue) {
+                    if(!newValue || newValue === undefined || newValue === null || newValue === "false") {
+                        scope.onDemandMode = false;
+                    } else {
+                        scope.onDemandMode = true;
+                    }
                 });
 
-                // Workaround for rn-carousel and imxColorShades resize problem
-                scope.resize = function () {
-                    //angular.element($window).triggerHandler('orientationchange');
-                };
 
                 scope.close = function () {
                     imxColorStoreService.storeColor(scope.selectedColor, PaletteIds.History, true, 8);
@@ -643,7 +594,171 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
             }
         };
     }]
-);;/**
+);;angular.module("imx.colorPicker").directive('imxPopOver', ['$timeout', function ($timeout) {
+    "use strict";
+
+    var TriggerTypes = {
+        Hover: 'hover',
+        Click: 'click',
+        Never: 'never'
+    };
+
+
+    var VerticalPosition = {
+        Top: 0,
+        Bottom: 1
+    };
+
+    var HorizontalPosition = {
+        Left: 0,
+        Right: 1
+    };
+
+
+    return {
+        restrict: 'EA',
+        replace: true,
+        transclude: true,
+        scope: {for: '@', trigger: '@', api: "="},
+        templateUrl: function(elem,attrs) {
+            return attrs.templateUrl || 'template/partials/popover.html';
+        },
+        controller: function ($scope, $element) {
+            var targetElement;
+            $scope.state = {
+                shown: false,
+                left: false,
+                up: false
+            };
+
+            $scope.$watch('for', function(newValue) {
+                if (targetElement) {
+                    removeListeners(targetElement);
+                }
+                targetElement = angular.element(document.querySelector(newValue));
+                attachListeners(targetElement);
+            });
+
+            function onClick(event) {
+                if($scope.trigger !== TriggerTypes.Click && $scope.trigger !== undefined) {
+                    return;
+                }
+                if(!$scope.state.shown) {
+                    showWindow(targetElement, $element);
+                } else {
+                    hideWindow();
+                }
+
+            }
+
+            function onMouseOver(event) {
+                if($scope.trigger !== TriggerTypes.Hover) {
+                    return;
+                }
+                showWindow(targetElement, $element);
+            }
+
+            function onMouseOut(event) {
+                if($scope.trigger !== TriggerTypes.Hover) {
+                    return;
+                }
+                hideWindow();
+            }
+
+            function setTargetElement(element) {
+                if (targetElement) {
+                    removeListeners(targetElement);
+                }
+                targetElement = element;
+                attachListeners(targetElement);
+            }
+
+            function attachListeners(element) {
+                element.on('click', onClick);
+                element.on('mouseover', onMouseOver);
+                element.on('mouseout', onMouseOut);
+            }
+
+            function removeListeners(element) {
+                element.off('click', onClick);
+                element.off('mouseover', onMouseOver);
+                element.off('mouseout', onMouseOut);
+            }
+
+            function hideWindow() {
+                $scope.state.shown = false;
+                $scope.$digest();
+            }
+
+            function showWindow (element, popOver) {
+                var clientRect = element[0].getBoundingClientRect();
+                var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+                var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+                var vertical = VerticalPosition.Bottom;
+                var horizontal = HorizontalPosition.Left;
+                var topGap = clientRect.top;
+                var bottomGap = h - clientRect.bottom;
+                var leftGap = clientRect.left;
+                var rightGap = w - clientRect.right;
+                if (topGap > bottomGap) {
+                    vertical = VerticalPosition.Top;
+                }
+                if (rightGap > leftGap) {
+                    horizontal = HorizontalPosition.Right;
+                }
+
+                $scope.state.up = (vertical == VerticalPosition.Bottom);
+                $scope.state.left = (horizontal == HorizontalPosition.Right);
+                reposition();
+
+                $scope.state.shown = true;
+                $scope.$digest();
+                function reposition() {
+                    var cumulativeOffset = function(element) {
+                        var top = 0, left = 0, width = element.offsetWidth, height = element.offsetHeight;
+                        do {
+                            top += element.offsetTop  || 0;
+                            left += element.offsetLeft || 0;
+                            element = element.offsetParent;
+                        } while(element);
+
+                        return {
+                            top: top,
+                            left: left,
+                            width: width,
+                            height: height
+                        };
+                    };
+
+
+                    var offset = cumulativeOffset(element[0]);
+                    var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+                    var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+                    if ($scope.state.left) {
+                        popOver.css('right','auto');
+                        popOver.css('left',offset.left + "px");
+                    } else {
+                        popOver.css('left','auto');
+                        popOver.css('right',(w - offset.left - offset.width) + "px");
+                    }
+
+                    if ($scope.state.up) {
+                        popOver.css('bottom','auto');
+                        popOver.css('top',(offset.top + offset.height) + "px");
+                    } else {
+                        popOver.css('top','auto');
+                        popOver.css('bottom',(h - offset.top) + "px");
+                    }
+                }
+            }
+
+            return {
+                setTargetElement : setTargetElement
+            };
+        }
+    };
+}]);;/**
  * @ngdoc directive
  * @name imx.colorPicker.directive:imxResize
  * @param {function} imxResize Resize callback. Passed parameters: `width, height`
@@ -666,7 +781,9 @@ angular.module("imx.colorPicker").directive('imxResize', ['$timeout', function (
                     if (newWidth !== width || newHeight !== height) {
                         width = newWidth;
                         height = newHeight;
-                        scope.method({width: newWidth, height: newHeight});
+                        scope.$apply(function() {
+                            scope.method({width: newWidth, height: newHeight});
+                        });
                     }
                     $timeout(check, timeout);
                 }, undefined);

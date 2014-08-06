@@ -153,7 +153,7 @@ angular.module('imx.colorPicker').directive('imxColorShades', ['imxPaletteServic
                 var hueStart = canvas.width - 20;
                 var huePercentage = hue / Parameters.MaxHue * 100;
                 var centerX = Math.round(canvas.width * (huePercentage / 100.0));
-                var centerY = hueStart + 4;
+                var centerY = hueStart + 2;
                 var radius = 4;
 
                 ctx.beginPath();

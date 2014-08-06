@@ -12,7 +12,7 @@ module.exports = function(grunt) {
                 useStrict: true
             },
             main: {
-                src: ['src/template/partials/colorPicker.html'],
+                src: ['src/template/partials/colorPicker.html', 'src/template/partials/popover.html'],
                 dest: 'dist/templates.js'
             }
         },

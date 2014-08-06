@@ -14,10 +14,12 @@
     <title></title>
 </head>
 <body ng-controller="demoCtrl">
+    <button id="testBtn">PopoverTest</button>
+    <imx-pop-over for="#testBtn" trigger="hover">Hello World</imx-pop-over>
     <div>
         <input type="text" ng-model="color.hex"><button ng-click="visible = true;">Show</button><button ng-click="visible = false;">hide</button>{{ color.hex }}
     </div>
-    <imx-color-picker ng-show="visible" data-closable="true" selected-color="color.hex"></imx-color-picker>
+    <imx-color-picker selected-color="color.hex" ng-show="visible"></imx-color-picker>
 
     <script type="text/javascript">
         angular.module('demo',['imx.colorPicker'])
