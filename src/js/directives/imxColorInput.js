@@ -9,37 +9,27 @@ angular.module('imx.colorPicker').directive('input', ['$compile', '$rootScope', 
                 return;
             }
 
-
-
             var scope = $rootScope.$new(false);
+
+            scope.element = element;
 
             scope.state = {
                 color: attr.value || "#FFFFFF"
             };
 
-            var colorMenu = angular.element('<imx-pop-over>' +
+            var colorMenu = angular.element('<imx-pop-over for-element="element">' +
                 '<imx-color-picker selected-color="state.color" on-close="state.shown = false;" closable="true"></imx-color-picker>' +
                 '</imx-pop-over>');
             element.after(colorMenu);
             element.attr('readonly', true);
             element.addClass('imx-color-input');
-
             $compile(colorMenu)(scope);
-
-            var popOverCtrl = angular.element(colorMenu).controller('imxPopOver');
-
-            popOverCtrl.setTargetElement(element);
-
-
 
             scope.$on('imx-popover-open', function (event, args) {
                 if (args.target !== colorMenu) {
                     scope.state.shown = false;
                 }
             });
-
-
-
 
             scope.$watch('state.color', function(newValue) {
                 if (ngModelController) {

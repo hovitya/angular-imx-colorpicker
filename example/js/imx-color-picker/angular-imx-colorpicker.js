@@ -153,11 +153,13 @@ angular.module("imx.colorPicker").directive('imxColorDisplay', ['imxPaletteServi
 
             var scope = $rootScope.$new(false);
 
+            scope.element = element;
+
             scope.state = {
                 color: attr.value || "#FFFFFF"
             };
 
-            var colorMenu = angular.element('<imx-pop-over>' +
+            var colorMenu = angular.element('<imx-pop-over for-element="element">' +
                 '<imx-color-picker selected-color="state.color" on-close="state.shown = false;" closable="true"></imx-color-picker>' +
                 '</imx-pop-over>');
             element.after(colorMenu);
@@ -166,9 +168,6 @@ angular.module("imx.colorPicker").directive('imxColorDisplay', ['imxPaletteServi
 
             $compile(colorMenu)(scope);
 
-            var popOverCtrl = angular.element(colorMenu).controller('imxPopOver');
-
-            popOverCtrl.setTargetElement(element);
 
 
 
@@ -619,7 +618,7 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
         restrict: 'EA',
         replace: true,
         transclude: true,
-        scope: {for: '@', trigger: '@', api: "="},
+        scope: {for: '@', trigger: '@', forElement: "="},
         templateUrl: function(elem,attrs) {
             return attrs.templateUrl || 'template/partials/popover.html';
         },
@@ -632,10 +631,25 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
             };
 
             $scope.$watch('for', function(newValue) {
+                if (!newValue) {
+                    return;
+                }
                 if (targetElement) {
                     removeListeners(targetElement);
                 }
                 targetElement = angular.element(document.querySelector(newValue));
+                attachListeners(targetElement);
+            });
+
+            $scope.$watch('forElement', function(newValue) {
+                if (!newValue) {
+                    return;
+                }
+                if (targetElement) {
+                    removeListeners(targetElement);
+                }
+                targetElement = newValue;
+
                 attachListeners(targetElement);
             });
 
@@ -752,10 +766,6 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
                     }
                 }
             }
-
-            return {
-                setTargetElement : setTargetElement
-            };
         }
     };
 }]);;/**
