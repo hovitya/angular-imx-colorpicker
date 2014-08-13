@@ -39,17 +39,17 @@ angular.module("template/partials/colorPicker.html", []).run(["$templateCache", 
     "                       spellcheck=\"false\"\n" +
     "                       class=\"imx-hex\"\n" +
     "                       maxlength=\"7\"\n" +
-    "                       ng-model-options=\"{ updateOn: 'default blur', debounce: {'default': 10000, 'blur': 0} }\">\n" +
+    "                       ng-model-options=\"{ debounce: 1000 }\">\n" +
     "                <input type=\"text\"\n" +
     "                       ng-model=\"state.components.blue\"\n" +
+    "                       ng-model-options=\"{ debounce: 1000 }\"\n" +
     "                       spellcheck=\"false\"\n" +
     "                       maxlength=\"3\"\n" +
     "                       class=\"imx-rgb imx-b\"\n" +
     "                       ng-mouseenter=\"bHover = true;\"\n" +
     "                       ng-mouseleave=\"bHover = false;\"\n" +
     "                       ng-focus=\"bActive = true;\"\n" +
-    "                       ng-blur=\"bActive = false;\"\n" +
-    "                       ng-model-options=\"{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }\">\n" +
+    "                       ng-blur=\"bActive = false;\">\n" +
     "                <div class=\"imx-rgb-label\" ng-class=\"{active: bHover || bActive}\">B</div>\n" +
     "                <input type=\"text\"\n" +
     "                       ng-model=\"state.components.green\"\n" +
@@ -60,7 +60,7 @@ angular.module("template/partials/colorPicker.html", []).run(["$templateCache", 
     "                       ng-mouseleave=\"gHover = false;\"\n" +
     "                       ng-focus=\"gActive = true;\"\n" +
     "                       ng-blur=\"gActive = false;\"\n" +
-    "                       ng-model-options=\"{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }\">\n" +
+    "                       ng-model-options=\"{ debounce: : 1000 }\">\n" +
     "                <div class=\"imx-rgb-label\" ng-class=\"{active: gHover || gActive}\">G</div>\n" +
     "                <input type=\"text\"\n" +
     "                       ng-model=\"state.components.red\"\n" +
@@ -71,7 +71,7 @@ angular.module("template/partials/colorPicker.html", []).run(["$templateCache", 
     "                       ng-mouseleave=\"rHover = false;\"\n" +
     "                       ng-focus=\"rActive = true;\"\n" +
     "                       ng-blur=\"rActive = false;\"\n" +
-    "                       ng-model-options=\"{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }\">\n" +
+    "                       ng-model-options=\"{ debounce: 1000 }\">\n" +
     "                <div class=\"imx-rgb-label\" ng-class=\"{active: rHover || rActive}\">R</div>\n" +
     "\n" +
     "            </div>\n" +
@@ -138,7 +138,12 @@ angular.module("imx.colorPicker").directive('imxColorDisplay', ['imxPaletteServi
             update();
         }
     };
-}]);;angular.module('imx.colorPicker').directive('input', ['$compile', '$rootScope', function ($compile, $rootScope) {
+}]);;/**
+ * @ngdoc directive
+ * @name imx.ColorPicker.directive:input[type='imx-color']
+ * @restrict E
+ */
+angular.module('imx.colorPicker').directive('input', ['$compile', '$rootScope', function ($compile, $rootScope) {
     "use strict";
 
     return {
@@ -149,8 +154,6 @@ angular.module("imx.colorPicker").directive('imxColorDisplay', ['imxPaletteServi
                 return;
             }
 
-
-
             var scope = $rootScope.$new(false);
 
             scope.element = element;
@@ -159,26 +162,19 @@ angular.module("imx.colorPicker").directive('imxColorDisplay', ['imxPaletteServi
                 color: attr.value || "#FFFFFF"
             };
 
-            var colorMenu = angular.element('<imx-pop-over for-element="element">' +
+            var colorMenu = angular.element('<imx-pop-over for-element="element" show="{{state.shown}}">' +
                 '<imx-color-picker selected-color="state.color" on-close="state.shown = false;" closable="true"></imx-color-picker>' +
                 '</imx-pop-over>');
             element.after(colorMenu);
             element.attr('readonly', true);
             element.addClass('imx-color-input');
-
             $compile(colorMenu)(scope);
-
-
-
 
             scope.$on('imx-popover-open', function (event, args) {
                 if (args.target !== colorMenu) {
                     scope.state.shown = false;
                 }
             });
-
-
-
 
             scope.$watch('state.color', function(newValue) {
                 if (ngModelController) {
@@ -593,7 +589,14 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
             }
         };
     }]
-);;angular.module("imx.colorPicker").directive('imxPopOver', ['$timeout', function ($timeout) {
+);;/**
+ * @ngdoc directive
+ * @name imx.colorPicker.directive:imxPopOver
+ * @restrict EA
+ * @param {string} for Selector for host component. e.g. #buttonId
+ * @param {string} trigger Trigger type. The default trigger type is `click`. Click means popup opened when user clicks on host element and it will be dismissed when clicks again. If value set to `hover` mouse over event will trigger this popover and mouse out will dismiss it. If you want to control popover manually set trigger to `none`.
+ */
+angular.module("imx.colorPicker").directive('imxPopOver', ['$timeout', function ($timeout) {
     "use strict";
 
     var TriggerTypes = {
@@ -618,7 +621,7 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
         restrict: 'EA',
         replace: true,
         transclude: true,
-        scope: {for: '@', trigger: '@', forElement: "="},
+        scope: {for: '@', trigger: '@', forElement: "=", show: '@'},
         templateUrl: function(elem,attrs) {
             return attrs.templateUrl || 'template/partials/popover.html';
         },
@@ -653,14 +656,24 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
                 attachListeners(targetElement);
             });
 
+            $scope.$watch('show', function(newValue) {
+                if (newValue) {
+                    showWindow(targetElement, $element);
+                } else {
+                    hideWindow();
+                }
+            });
+
             function onClick(event) {
                 if($scope.trigger !== TriggerTypes.Click && $scope.trigger !== undefined) {
                     return;
                 }
                 if(!$scope.state.shown) {
                     showWindow(targetElement, $element);
+                    $scope.$digest();
                 } else {
                     hideWindow();
+                    $scope.$digest();
                 }
 
             }
@@ -670,6 +683,7 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
                     return;
                 }
                 showWindow(targetElement, $element);
+                $scope.$digest();
             }
 
             function onMouseOut(event) {
@@ -677,14 +691,7 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
                     return;
                 }
                 hideWindow();
-            }
-
-            function setTargetElement(element) {
-                if (targetElement) {
-                    removeListeners(targetElement);
-                }
-                targetElement = element;
-                attachListeners(targetElement);
+                $scope.$digest();
             }
 
             function attachListeners(element) {
@@ -701,7 +708,6 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
 
             function hideWindow() {
                 $scope.state.shown = false;
-                $scope.$digest();
             }
 
             function showWindow (element, popOver) {
@@ -726,7 +732,7 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
                 reposition();
 
                 $scope.state.shown = true;
-                $scope.$digest();
+
                 function reposition() {
                     var cumulativeOffset = function(element) {
                         var top = 0, left = 0, width = element.offsetWidth, height = element.offsetHeight;

@@ -39,11 +39,27 @@ NG_DOCS={
     },
     {
       "section": "imxColorPicker",
+      "id": "imx.colorPicker.directive:imxPopOver",
+      "shortName": "imxPopOver",
+      "type": "directive",
+      "moduleName": "imx.colorPicker",
+      "keywords": "buttonid click clicks colorpicker component control default directive dismiss dismissed ea element event host hover imx imxcolorpicker manually mouse opened popover popup selector set trigger type user"
+    },
+    {
+      "section": "imxColorPicker",
       "id": "imx.colorPicker.directive:imxResize",
       "shortName": "imxResize",
       "type": "directive",
       "moduleName": "imx.colorPicker",
       "keywords": "callback check colorpicker directive frequency height imx imxcolorpicker imxresize imxtimeout parameters passed resize width"
+    },
+    {
+      "section": "imxColorPicker",
+      "id": "imx.ColorPicker.directive:input[type='imx-color']",
+      "shortName": "input[type='imx-color']",
+      "type": "directive",
+      "moduleName": "imx.ColorPicker",
+      "keywords": "colorpicker directive imx imx-color imxcolorpicker"
     },
     {
       "section": "imxColorPicker",

@@ -1,3 +1,8 @@
+/**
+ * @ngdoc directive
+ * @name imx.ColorPicker.directive:input[type='imx-color']
+ * @restrict E
+ */
 angular.module('imx.colorPicker').directive('input', ['$compile', '$rootScope', function ($compile, $rootScope) {
     "use strict";
 
@@ -17,7 +22,7 @@ angular.module('imx.colorPicker').directive('input', ['$compile', '$rootScope', 
                 color: attr.value || "#FFFFFF"
             };
 
-            var colorMenu = angular.element('<imx-pop-over for-element="element">' +
+            var colorMenu = angular.element('<imx-pop-over for-element="element" show="{{state.shown}}">' +
                 '<imx-color-picker selected-color="state.color" on-close="state.shown = false;" closable="true"></imx-color-picker>' +
                 '</imx-pop-over>');
             element.after(colorMenu);

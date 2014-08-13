@@ -34,17 +34,17 @@
                        spellcheck="false"
                        class="imx-hex"
                        maxlength="7"
-                       ng-model-options="{ updateOn: 'default blur', debounce: {'default': 10000, 'blur': 0} }">
+                       ng-model-options="{ debounce: 1000 }">
                 <input type="text"
                        ng-model="state.components.blue"
+                       ng-model-options="{ debounce: 1000 }"
                        spellcheck="false"
                        maxlength="3"
                        class="imx-rgb imx-b"
                        ng-mouseenter="bHover = true;"
                        ng-mouseleave="bHover = false;"
                        ng-focus="bActive = true;"
-                       ng-blur="bActive = false;"
-                       ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }">
+                       ng-blur="bActive = false;">
                 <div class="imx-rgb-label" ng-class="{active: bHover || bActive}">B</div>
                 <input type="text"
                        ng-model="state.components.green"
@@ -55,7 +55,7 @@
                        ng-mouseleave="gHover = false;"
                        ng-focus="gActive = true;"
                        ng-blur="gActive = false;"
-                       ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }">
+                       ng-model-options="{ debounce: : 1000 }">
                 <div class="imx-rgb-label" ng-class="{active: gHover || gActive}">G</div>
                 <input type="text"
                        ng-model="state.components.red"
@@ -66,7 +66,7 @@
                        ng-mouseleave="rHover = false;"
                        ng-focus="rActive = true;"
                        ng-blur="rActive = false;"
-                       ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }">
+                       ng-model-options="{ debounce: 1000 }">
                 <div class="imx-rgb-label" ng-class="{active: rHover || rActive}">R</div>
 
             </div>
