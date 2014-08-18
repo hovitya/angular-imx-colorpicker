@@ -1,0 +1,12 @@
+<div class="imx-popup-wrapper imx-color-popup-wrapper" ng-show="state.shown">
+    <div class="arrow-up left-side-arrow" ng-show="state.up && state.left"></div>
+    <div class="arrow-up right-side-arrow" ng-show="state.up && !state.left"></div>
+    <div class="arrow-clear"></div>
+    <div class="imx-popover-content">
+        <div ng-transclude></div>
+    </div>
+    <div class="bottom-arrow-container">
+        <div class="arrow-down left-side-arrow" ng-show="!state.up && state.left"></div>
+        <div class="arrow-down right-side-arrow" ng-show="!state.up && !state.left"></div>
+    </div>
+</div>
