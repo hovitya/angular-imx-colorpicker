@@ -149,6 +149,7 @@ angular.module('imx.colorPicker').directive('input', ['$compile', '$rootScope', 
     return {
         restrict: 'E',
         require: '?ngModel',
+        priority: 1,
         link: function (scopeOriginal, element, attr, ngModelController) {
             if (attr.type !== "imx-color") {
                 return;
@@ -179,8 +180,16 @@ angular.module('imx.colorPicker').directive('input', ['$compile', '$rootScope', 
             scope.$watch('state.color', function(newValue) {
                 if (ngModelController) {
                     ngModelController.$setViewValue(newValue);
+                    ngModelController.$render();
                 }
             });
+            if(ngModelController) {
+                var inputRender = ngModelController.$render;
+                ngModelController.$render = function() {
+                    scope.state.color = ngModelController.$viewValue;
+                    inputRender();
+                };
+            }
         }
     };
 }]);;/**
@@ -507,7 +516,7 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
                 );
 
                 scope.setActive = function (clr) {
-                   scope.state.color = paletteService.toHex(clr);
+                        scope.state.color = paletteService.toHex(clr);
                 };
 
 

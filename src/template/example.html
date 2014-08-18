@@ -25,14 +25,14 @@
         angular.module('demo',['imx.colorPicker'])
                 .controller('demoCtrl',  ['$scope', function($scope) {
                     $scope.visible = false;
-                    $scope.color = {hex: '#FFFFFF'};
+                    $scope.color = {hex: '#000FFF'};
                 }]);
     </script>
-    <input type="imx-color" value="#000FFF" ng-model="color.hex">
+    <input type="imx-color" ng-model="color.hex">
     <div style="height: 1500px"></div>
-    <input type="imx-color" value="#000FFF" ng-model="color.hex">
+    <input type="imx-color" ng-model="color.hex">
     <div style="float: right">
-        <input type="imx-color" value="#000FFF" ng-model="color.hex">
+        <input type="imx-color" ng-model="color.hex">
     </div>
 </body>
 </html>

@@ -88,7 +88,7 @@ angular.module('imx.colorPicker').directive('imxColorPicker', ['imxPaletteServic
                 );
 
                 scope.setActive = function (clr) {
-                   scope.state.color = paletteService.toHex(clr);
+                        scope.state.color = paletteService.toHex(clr);
                 };
 
 
