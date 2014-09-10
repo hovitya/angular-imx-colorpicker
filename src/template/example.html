@@ -2,6 +2,14 @@
 <html ng-app="demo">
 <head lang="en">
     <meta charset="UTF-8">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <link href="js/angular-carousel/dist/angular-carousel.css" rel="stylesheet" type="text/css">
     <link href="js/imx-color-picker/angular-imx-colorpicker.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
@@ -11,28 +19,75 @@
     <script type="text/javascript" src="js/angular-carousel/dist/angular-carousel.js"></script>
     <script type="text/javascript" src="js/angular-animate/angular-animate.js"></script>
     <script type="text/javascript" src="js/imx-color-picker/angular-imx-colorpicker.js"></script>
-    <title></title>
+    <title>IMX ColorPicker component</title>
 </head>
 <body ng-controller="demoCtrl">
-    <button id="testBtn">PopoverTest</button>
-    <imx-pop-over for="#testBtn" trigger="hover">Hello World</imx-pop-over>
-    <div>
-        <input type="text" ng-model="color.hex"><button ng-click="visible = true;">Show</button><button ng-click="visible = false;">hide</button>{{ color.hex }}
-    </div>
-    <imx-color-picker selected-color="color.hex" ng-show="visible"></imx-color-picker>
+    <div class="container">
+        <h1>IMX ColorPicker component <small>Examples</small></h1>
+        <h2>Using as inline element</h2>
+        <p>
+            You can use color picker component as an embedded element. Simply add <kbd>imx-color-picker</kbd> tag to your code.
+        </p>
+        <p>
+            <imx-color-picker selected-color="color"></imx-color-picker>
+        </p>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">HTML code</h3>
+            </div>
+            <div class="panel-body">
+                <samp>&lt;imx-color-picker selected-color="color"&gt;&lt;/imx-color-picker&gt;</samp>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Javascript code</h3>
+            </div>
+            <div class="panel-body">
+                <pre>
+angular.module('demo',['imx.colorPicker'])
+    .controller('demoCtrl',  ['$scope', function($scope) {
+    $scope.color = '#000FFF';
+}]);</pre>
+            </div>
+        </div>
 
+        <h2>Using as color input</h2>
+        <p>
+            The module defines a new input type called <kbd>imx-color</kbd>. As result of using this type it replaces default input behaviour with color input. It is compatible with the ngModel directive. Click on the input field to test it.
+        </p>
+        <p>
+            <input class="form-control input-lg" type="imx-color" ng-model="color">
+        </p>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">HTML code</h3>
+            </div>
+            <div class="panel-body">
+                <samp>&lt;imx-color-picker selected-color="color"&gt;&lt;/imx-color-picker&gt;</samp>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Javascript code</h3>
+            </div>
+            <div class="panel-body">
+                <pre>
+angular.module('demo',['imx.colorPicker'])
+    .controller('demoCtrl',  ['$scope', function($scope) {
+    $scope.color = '#000FFF';
+}]);</pre>
+            </div>
+        </div>
+
+    </div>
     <script type="text/javascript">
         angular.module('demo',['imx.colorPicker'])
                 .controller('demoCtrl',  ['$scope', function($scope) {
-                    $scope.visible = false;
-                    $scope.color = {hex: '#000FFF'};
+                    $scope.visible = true;
+                    $scope.color = '#000FFF';
                 }]);
     </script>
-    <input type="imx-color" ng-model="color.hex">
-    <div style="height: 1500px"></div>
-    <input type="imx-color" ng-model="color.hex">
-    <div style="float: right">
-        <input type="imx-color" ng-model="color.hex">
-    </div>
+
 </body>
 </html>
