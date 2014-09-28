@@ -42,6 +42,8 @@ angular.module("imx.colorPicker").directive('imxPopOver', ['$timeout', function 
                 up: false
             };
 
+            $scope.show = false;
+
             $scope.$watch('for', function(newValue) {
                 if (!newValue) {
                     return;
@@ -66,7 +68,7 @@ angular.module("imx.colorPicker").directive('imxPopOver', ['$timeout', function 
             });
 
             $scope.$watch('show', function(newValue) {
-                if (newValue) {
+                if (newValue === true || newValue === "true") {
                     showWindow(targetElement, $element);
                 } else {
                     hideWindow();
@@ -117,9 +119,11 @@ angular.module("imx.colorPicker").directive('imxPopOver', ['$timeout', function 
 
             function hideWindow() {
                 $scope.state.shown = false;
+                $scope.show = false;
             }
 
             function showWindow (element, popOver) {
+                $scope.show = true;
                 var clientRect = element[0].getBoundingClientRect();
                 var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
                 var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);

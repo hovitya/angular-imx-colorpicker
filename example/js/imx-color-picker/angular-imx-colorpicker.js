@@ -164,7 +164,7 @@ angular.module('imx.colorPicker').directive('input', ['$compile', '$rootScope', 
             };
 
             var colorMenu = angular.element('<imx-pop-over for-element="element" show="{{state.shown}}">' +
-                '<imx-color-picker selected-color="state.color" on-close="state.shown = false;" closable="true"></imx-color-picker>' +
+                '<imx-color-picker selected-color="state.color" on-close="onClose()" closable="true"></imx-color-picker>' +
                 '</imx-pop-over>');
             element.after(colorMenu);
             element.attr('readonly', true);
@@ -176,6 +176,10 @@ angular.module('imx.colorPicker').directive('input', ['$compile', '$rootScope', 
                     scope.state.shown = false;
                 }
             });
+
+            scope.onClose = function () {
+                scope.state.shown = false;
+            };
 
             scope.$watch('state.color', function(newValue) {
                 if (ngModelController) {
@@ -642,6 +646,8 @@ angular.module("imx.colorPicker").directive('imxPopOver', ['$timeout', function 
                 up: false
             };
 
+            $scope.show = false;
+
             $scope.$watch('for', function(newValue) {
                 if (!newValue) {
                     return;
@@ -666,7 +672,7 @@ angular.module("imx.colorPicker").directive('imxPopOver', ['$timeout', function 
             });
 
             $scope.$watch('show', function(newValue) {
-                if (newValue) {
+                if (newValue === true || newValue === "true") {
                     showWindow(targetElement, $element);
                 } else {
                     hideWindow();
@@ -717,9 +723,11 @@ angular.module("imx.colorPicker").directive('imxPopOver', ['$timeout', function 
 
             function hideWindow() {
                 $scope.state.shown = false;
+                $scope.show = false;
             }
 
             function showWindow (element, popOver) {
+                $scope.show = true;
                 var clientRect = element[0].getBoundingClientRect();
                 var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
                 var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
